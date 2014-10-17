@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">JW stand report</string>
+    <string name="app_name">JW stand отчет</string>
+    <string name="db_name">"jw_stand"</string>
+    <string name="db_version">"1"</string>
+
+
+    <string name="user">"Фамилия и Имя"</string>
+    <string name="date">"Дата служения"</string>
+    <string name="time">"Время служения"</string>
+    <string name="from">"С:"</string>
+    <string name="to">"До:"</string>
+    <string name="location">"Точка служения"</string>
+    <string name="journals">"Журналы"</string>
+    <string name="broshures">"Брошюры"</string>
+    <string name="books">"Книги"</string>
+    <string name="dvd">"DVD"</string>
+    <string name="talks">"Беседы"</string>
+    <string name="repeated_visits">"Повторные посещения"</string>
+    <string name="blank">"S43"</string>
+    <string name="profile">"Ваш профиль"</string>
+    <string name="meeting">"Собрание"</string>
+    <string name="settings">"Настройки"</string>
+
 </resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main">#45484c</color>
+    <color name="main_middle">#242628</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="bt_dw">#2d3136</color>
+    <color name="blue">#0061ca</color>
+    <color name="blue_dark">#004d9c</color>
+    <color name="violet">#001db1</color>
+    <color name="violet_dark">#000c44</color>
+    <color name="gray">#797979</color>
+    <color name="gray_light">#c0c0c0</color>
+    <color name="gray_dark">#353534</color>
+    <color name="green">#78e628</color>
+    <color name="green_dark">#0c8201</color>
+
+    <color name="red">#e10000</color>
+    <color name="red_dark">#8b0101</color>
+
+    <color name="black_trans_50">#50000000</color>
+    <color name="black_trans_aa">#aa000000</color>
+
+    <color name="chekbox">#78e628</color>
+</resources>
