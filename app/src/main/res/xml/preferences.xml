@@ -10,6 +10,20 @@
             android:key="meeting"
             android:title="@string/meeting" />
 
+        <ListPreference
+            android:key="location"
+            android:title="@string/location" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/send_data">
+        <EditTextPreference
+            android:key="sms"
+            android:title="@string/sms" />
+
+        <EditTextPreference
+            android:key="email"
+            android:title="@string/email" />
     </PreferenceCategory>
 
 
