@@ -77,6 +77,7 @@ public class class_transliterator {
         charMap.put('э', "e");
         charMap.put('ю', "u");
         charMap.put('я', "ya");
+        charMap.put('№', "#");
 
     }
 

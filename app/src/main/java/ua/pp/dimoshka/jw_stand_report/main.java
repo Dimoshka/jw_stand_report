@@ -195,8 +195,8 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
         if (sms.length() > 8) {
             cursor.moveToPosition(aq.id(R.id.location).getSelectedItemPosition());
 
-            String message = "JW_STAND " + get_shot_text(translite.transliterate(cursor.getString(cursor.getColumnIndex("name"))), 6)
-                    + "; " + get_shot_text(translite.transliterate(aq.id(R.id.user).getText().toString()), 6)
+            String message = "JW_STAND " + get_shot_text(translite.transliterate(cursor.getString(cursor.getColumnIndex("name"))), 10)
+                    + "; " + get_shot_text(translite.transliterate(aq.id(R.id.user).getText().toString()), 10)
                     + "; " + aq.id(R.id.date).getText().toString()//.replace("-", "")
                     + "; " + aq.id(R.id.time_start).getText().toString()//.replace(":", "")
                     + "-" + aq.id(R.id.time_end).getText().toString()//.replace(":", "")
@@ -217,7 +217,6 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
             final ArrayList<PendingIntent> sentArrayIntents = new ArrayList<PendingIntent>();
             for (int i = 0; i < mArray.size(); i++) {
                 sentArrayIntents.add(sentPI);
-
                 Log.e("22", mArray.get(i));
             }
 
