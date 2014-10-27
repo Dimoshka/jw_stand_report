@@ -21,10 +21,10 @@ android {
     signingConfigs {
         release {
             keyAlias 'jw_stand_report'
-            keyPassword 'Di26Moshka29'
+            keyPassword 'Dimoshka9101'
             storeFile file('H:/Workspace/android/keys/dimoshka.jks')
             //storeFile file('/home/dimoshka/Workspace/android/keys/dimoshka.jks')
-            storePassword 'Di26Moshka29'
+            storePassword 'Dimoshka9101'
         }
         debug {
             keyAlias 'debug'

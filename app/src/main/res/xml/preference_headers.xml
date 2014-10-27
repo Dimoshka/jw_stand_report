@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+    <header
+        android:fragment="ua.pp.dimoshka.jw_stand_report.prefs_fragment"
+        android:title="@string/settings">
+        <extra
+            android:name="resource"
+            android:value="preferences" />
+    </header>
+</preference-headers>

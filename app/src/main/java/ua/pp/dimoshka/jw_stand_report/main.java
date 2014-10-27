@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -98,7 +99,8 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
                     .setMessage(getString(R.string.first_run_text))
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            startActivity(new Intent(main.this, preferences.class));
+                            //startActivity(new Intent(main.this, preferences.class));
+                            start_settings();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null).show();
@@ -157,7 +159,8 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
                 System.exit(0);
                 break;
             case R.id.settings:
-                startActivity(new Intent(this, preferences.class));
+                //(new Intent(this, preferences.class));
+                start_settings();
                 break;
             case R.id.statistic:
 
@@ -173,6 +176,14 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(sendSms);
+    }
+
+    private void start_settings() {
+        if (Build.VERSION.SDK_INT < 11) {
+            startActivity(new Intent(this, preferences_old.class));
+        } else {
+            startActivity(new Intent(this, preferences_new.class));
+        }
     }
 
     private void set_default() {
