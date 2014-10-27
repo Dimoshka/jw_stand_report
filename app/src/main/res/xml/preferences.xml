@@ -16,6 +16,15 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/send_settings">
+        <ListPreference
+            android:defaultValue="3"
+            android:entries="@array/send_report"
+            android:entryValues="@array/send_report_value"
+            android:key="send_type"
+            android:title="@string/send_type" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/send_data">
         <EditTextPreference
             android:key="sms"

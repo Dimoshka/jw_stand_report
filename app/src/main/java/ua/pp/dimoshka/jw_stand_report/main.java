@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -13,8 +14,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
@@ -29,6 +30,8 @@ import com.splunk.mint.Mint;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class main extends ActionBarActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -37,7 +40,7 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
     private SharedPreferences prefs;
     private static SQLiteDatabase database = null;
     private Cursor cursor;
-    private ActionBar actionBar;
+    private Toolbar toolbar;
     private class_transliterator translite = new class_transliterator();
     private class_send_sms sendSms = new class_send_sms();
 
@@ -54,9 +57,10 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
         database = dbOpenHelper.openDataBase();
 
         aq = new AQuery(this);
-        actionBar = getSupportActionBar();
-        actionBar.setTitle(R.string.app_name);
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(R.string.app_name);
 
         aq.id(R.id.send).clicked(this, "send_click");
         aq.id(R.id.date).clicked(this, "date_click");
@@ -92,9 +96,13 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.first_run_title))
                     .setMessage(getString(R.string.first_run_text))
-                    .setNeutralButton("OK", null).show();
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            startActivity(new Intent(main.this, preferences.class));
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null).show();
             prefs.edit().putBoolean("first_run", false).apply();
-            startActivity(new Intent(this, preferences.class));
         }
 
         prefs.registerOnSharedPreferenceChangeListener(this);
@@ -191,25 +199,137 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
     }
 
     public void send_click(View v) {
-        final String sms = prefs.getString("sms", "");
+
+        cursor.moveToPosition(aq.id(R.id.location).getSelectedItemPosition());
+        //int id_stand = cursor.getString(cursor.getColumnIndex("name"));
+
+        String user = aq.id(R.id.user).getText().toString();
+        String date = aq.id(R.id.date).getText().toString();
+        String time_start = aq.id(R.id.time_start).getText().toString();
+        String time_end = aq.id(R.id.time_end).getText().toString();
+
+        if (user.length() > 4 && !date.equals("0000-00-00") && !time_start.equals("00:00") && !time_end.equals("00:00")) {
+            int send_type = Integer.parseInt(prefs.getString("send_type", "3"));
+            if (send_type == 3) {
+                new AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.send_type))
+                        .setPositiveButton(R.string.type_sms, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                send_sms(get_message(1));
+                                return;
+                            }
+                        })
+                        .setNegativeButton(R.string.type_email, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                send_mail(get_message(2));
+                                return;
+                            }
+                        })
+                        .show();
+            }
+
+            switch (send_type) {
+                case 1:
+                    send_sms(get_message(send_type));
+                    break;
+                case 2:
+                    send_mail(get_message(send_type));
+                    break;
+            }
+        } else {
+            Toast.makeText(this, getString(R.string.vrong), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private String get_message(int send_type) {
+        cursor.moveToPosition(aq.id(R.id.location).getSelectedItemPosition());
+        String message = "";
+
+        switch (send_type) {
+            case 1:
+                message = "JW_STAND " + get_shot_text(translite.transliterate(cursor.getString(cursor.getColumnIndex("name"))), 10)
+                        + "; " + get_shot_text(translite.transliterate(aq.id(R.id.user).getText().toString()), 10)
+                        + "; " + aq.id(R.id.date).getText().toString()//.replace("-", "")
+                        + "; " + aq.id(R.id.time_start).getText().toString()//.replace(":", "")
+                        + "-" + aq.id(R.id.time_end).getText().toString()//.replace(":", "")
+                        + "; j:" + aq.id(R.id.journals).getText().toString()
+                        + "; br:" + aq.id(R.id.broshure).getText().toString()
+                        + "; b:" + aq.id(R.id.books).getText().toString()
+                        + "; d:" + aq.id(R.id.dvd).getText().toString()
+                        + "; t:" + aq.id(R.id.talks).getText().toString()
+                        + "; r:" + aq.id(R.id.repeated_visits).getText().toString()
+                        + "; s:" + aq.id(R.id.s43).getText().toString();
+                break;
+            case 2:
+                message = "JW_STAND " + cursor.getString(cursor.getColumnIndex("name"))
+                        + "\n\r\n" + aq.id(R.id.user).getText().toString()
+                        + "\n\r\n" + aq.id(R.id.date).getText().toString()
+                        + " " + aq.id(R.id.time_start).getText().toString()
+                        + " - " + aq.id(R.id.time_end).getText().toString()
+                        + "\r\njournal: " + aq.id(R.id.journals).getText().toString()
+                        + "\r\nbroshure: " + aq.id(R.id.broshure).getText().toString()
+                        + "\r\nbook: " + aq.id(R.id.books).getText().toString()
+                        + "\r\ndvd: " + aq.id(R.id.dvd).getText().toString()
+                        + "\r\ntalk: " + aq.id(R.id.talks).getText().toString()
+                        + "\r\nrepeated visits: " + aq.id(R.id.repeated_visits).getText().toString()
+                        + "\r\ns43: " + aq.id(R.id.s43).getText().toString();
+                break;
+        }
+        Log.e("11", message.length() + "");
+        Log.e("11", message);
+        return message;
+    }
+
+    private void write_statistic() {
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.statistic))
+                .setMessage(getString(R.string.statistic_write))
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        cursor.moveToPosition(aq.id(R.id.location).getSelectedItemPosition());
+                        int id_stand = cursor.getInt(cursor.getColumnIndex("_id"));
+                        String user = aq.id(R.id.user).getText().toString();
+                        String date = aq.id(R.id.date).getText().toString();
+                        String time_start = aq.id(R.id.time_start).getText().toString();
+                        String time_end = aq.id(R.id.time_end).getText().toString();
+
+                        int journal = Integer.parseInt(aq.id(R.id.journals).getText().toString());
+                        int broshure = Integer.parseInt(aq.id(R.id.broshure).getText().toString());
+                        int book = Integer.parseInt(aq.id(R.id.books).getText().toString());
+                        int dvd = Integer.parseInt(aq.id(R.id.dvd).getText().toString());
+                        int talk = Integer.parseInt(aq.id(R.id.talks).getText().toString());
+                        int repeated_visit = Integer.parseInt(aq.id(R.id.repeated_visits).getText().toString());
+                        int s43 = Integer.parseInt(aq.id(R.id.s43).getText().toString());
+
+                        ContentValues init = new ContentValues();
+                        init.put("id_stand", id_stand);
+                        init.put("user", user);
+                        init.put("date", date);
+                        init.put("time_start", time_start);
+                        init.put("time_end", time_end);
+                        init.put("journal", journal);
+                        init.put("broshure", broshure);
+                        init.put("book", book);
+                        init.put("dvd", dvd);
+                        init.put("repeated_visit", repeated_visit);
+                        init.put("talk", talk);
+                        init.put("s_blank", s43);
+                        database.insert("statistic", null, init);
+                        clear();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        clear();
+                    }
+                })
+                .show();
+
+    }
+
+    private void send_sms(String message) {
+        final String sms = prefs.getString("sms", "").replace("(", "").replace(")", "").replace(" ", "").replace("-", "");
         if (sms.length() > 8) {
-            cursor.moveToPosition(aq.id(R.id.location).getSelectedItemPosition());
-
-            String message = "JW_STAND " + get_shot_text(translite.transliterate(cursor.getString(cursor.getColumnIndex("name"))), 10)
-                    + "; " + get_shot_text(translite.transliterate(aq.id(R.id.user).getText().toString()), 10)
-                    + "; " + aq.id(R.id.date).getText().toString()//.replace("-", "")
-                    + "; " + aq.id(R.id.time_start).getText().toString()//.replace(":", "")
-                    + "-" + aq.id(R.id.time_end).getText().toString()//.replace(":", "")
-                    + "; j:" + aq.id(R.id.journals).getText().toString()
-                    + "; br:" + aq.id(R.id.broshure).getText().toString()
-                    + "; b:" + aq.id(R.id.books).getText().toString()
-                    + "; d:" + aq.id(R.id.dvd).getText().toString()
-                    + "; t:" + aq.id(R.id.talks).getText().toString()
-                    + "; r:" + aq.id(R.id.repeated_visits).getText().toString()
-                    + "; s:" + aq.id(R.id.s43).getText().toString();
-
-            Log.e("11", message.length() + "");
-            Log.e("11", message);
 
             PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
             final SmsManager smsManager = SmsManager.getDefault();
@@ -219,21 +339,41 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
                 sentArrayIntents.add(sentPI);
                 Log.e("22", mArray.get(i));
             }
-
-
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.sms_sending))
                     .setMessage(getString(R.string.sms_count) + " " + mArray.size())
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             //smsManager.sendMultipartTextMessage(sms, null, mArray, sentArrayIntents, null);
-                            clear();
+                            write_statistic();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)
                     .show();
         } else Toast.makeText(this, getString(R.string.sms_vrong), Toast.LENGTH_LONG).show();
     }
+
+    private void send_mail(String message) {
+        final String email = prefs.getString("email", "");
+        if (email.length() > 6 && email_validate(email)) {
+            final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+            emailIntent.setType("plain/text");
+            emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{email});
+            emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "JW_STAND " + aq.id(R.id.user).getText().toString());
+            emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
+            startActivity(Intent.createChooser(emailIntent, getString(R.string.email_sending)));
+            write_statistic();
+        } else Toast.makeText(this, getString(R.string.email_vrong), Toast.LENGTH_LONG).show();
+    }
+
+
+    public boolean email_validate(String email) {
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
 
     private void clear() {
         aq.id(R.id.date).text("0000-00-00");
@@ -285,7 +425,6 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
 
     public void date_click(View v) {
         Calendar c = Calendar.getInstance();
-
         DatePickerDialog dpd = new DatePickerDialog(this,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override

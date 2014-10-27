@@ -37,9 +37,31 @@
     <string name="unknown_problems">"Неизвестная ошибка"</string>
     <string name="modul_is_down">"Ваш телефон выключен!"</string>
 
+    <string name="vrong">"Вы заполнили не все данные!"</string>
     <string name="sms_vrong">"Не корректный номер телефона"</string>
+    <string name="email_vrong">"Не корректный e-mail"</string>
     <string name="sms_sending">"Отправка СМС"</string>
+    <string name="email_sending">"Отправка E-mail"</string>
     <string name="sms_count">"Будет отправленно смс в количестве:"</string>
+    <string name="send_settings">"Настройка отправки"</string>
+    <string name="send_type">"Способ отправки"</string>
+
+    <string name="type_sms">"СМС"</string>
+    <string name="type_email">"E-mail"</string>
+
+    <string name="statistic_write">"Сохранить данные для статистики?"</string>
+
+    <string-array name="send_report">
+        <item>"Только через СМС"</item>
+        <item>"Только через e-mail"</item>
+        <item>"Всегда спрашивать"</item>
+    </string-array>
+
+    <string-array name="send_report_value">
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
+    </string-array>
 
 
 </resources>

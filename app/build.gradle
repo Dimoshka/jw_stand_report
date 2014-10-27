@@ -22,15 +22,15 @@ android {
         release {
             keyAlias 'jw_stand_report'
             keyPassword 'Di26Moshka29'
-            //storeFile file('H:/Workspace/android/keys/dimoshka.jks')
-            storeFile file('/home/dimoshka/Workspace/android/keys/dimoshka.jks')
+            storeFile file('H:/Workspace/android/keys/dimoshka.jks')
+            //storeFile file('/home/dimoshka/Workspace/android/keys/dimoshka.jks')
             storePassword 'Di26Moshka29'
         }
         debug {
             keyAlias 'debug'
             keyPassword '1234567890'
-            //storeFile file('H:/Workspace/android/keys/debug.jks')
-            storeFile file('/home/dimoshka/Workspace/android/keys/debug.jks')
+            storeFile file('H:/Workspace/android/keys/debug.jks')
+            //storeFile file('/home/dimoshka/Workspace/android/keys/debug.jks')
             storePassword '1234567890'
         }
     }

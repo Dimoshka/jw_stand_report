@@ -24,6 +24,8 @@ public class preferences extends PreferenceActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         Mint.initAndStartSession(preferences.this, "354b0769");
         super.onCreate(savedInstanceState);
+        //setContentView(R.layout.preference);
+
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         class_sqlite dbOpenHelper = new class_sqlite(this);
         database = dbOpenHelper.openDataBase();
