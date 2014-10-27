@@ -27,6 +27,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.splunk.mint.Mint;
 
 import java.util.ArrayList;
@@ -354,7 +355,7 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
                     .setMessage(getString(R.string.sms_count) + " " + mArray.size())
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            //smsManager.sendMultipartTextMessage(sms, null, mArray, sentArrayIntents, null);
+                            smsManager.sendMultipartTextMessage(sms, null, mArray, sentArrayIntents, null);
                             write_statistic();
                         }
                     })
@@ -503,6 +504,22 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
         int value = Integer.parseInt(aq.id(tv).getText().toString()) + plus;
         if (value < 0) value = 0;
         aq.id(tv).text(String.valueOf(value));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //if (prefs.getBoolean("analytics", true)) {
+            EasyTracker.getInstance(this).activityStart(this);
+        //}
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //if (prefs.getBoolean("analytics", true)) {
+            EasyTracker.getInstance(this).activityStop(this);
+       //}
     }
 
     @Override

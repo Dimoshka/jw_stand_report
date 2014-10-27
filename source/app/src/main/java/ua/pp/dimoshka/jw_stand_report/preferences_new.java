@@ -9,6 +9,8 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,5 +61,21 @@ public class preferences_new extends PreferenceActivity {
         listPreference.setEntries(entries);
         listPreference.setDefaultValue("1");
         listPreference.setEntryValues(entryValues);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //if (prefs.getBoolean("analytics", true)) {
+        EasyTracker.getInstance(this).activityStart(this);
+        //}
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //if (prefs.getBoolean("analytics", true)) {
+        EasyTracker.getInstance(this).activityStop(this);
+        //}
     }
 }
