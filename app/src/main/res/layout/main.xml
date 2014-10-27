@@ -60,13 +60,16 @@
             android:layout_below="@+id/textView2"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:id="@+id/t_date"
+            android:id="@+id/date"
             android:layout_weight="1"
             android:layout_marginTop="@dimen/line_margin"
             android:gravity="center"
             android:text="0000-00-00"
             android:padding="@dimen/line_margin"
-            android:background="@drawable/bt_green" />
+            android:background="@drawable/bt_green">
+
+            <requestFocus />
+        </TextView>
 
 
         <TextView
@@ -75,7 +78,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/time"
             android:id="@+id/textView3"
-            android:layout_below="@+id/t_date"
+            android:layout_below="@+id/date"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:textStyle="bold|italic"
@@ -151,7 +154,7 @@
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner"
+            android:id="@+id/location"
             android:layout_below="@+id/textView6"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -160,7 +163,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/spinner"
+            android:layout_below="@+id/location"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:id="@+id/LinearLayout2"

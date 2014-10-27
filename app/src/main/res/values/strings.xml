@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">JW stand отчет</string>
-    <string name="db_name">"jw_stand"</string>
+    <string name="db_name">"jw_stand_report.sqlite3"</string>
     <string name="db_version">"1"</string>
 
 
@@ -22,5 +22,24 @@
     <string name="profile">"Ваш профиль"</string>
     <string name="meeting">"Собрание"</string>
     <string name="settings">"Настройки"</string>
+
+    <string name="send_data">Данные для отправки отчета</string>
+    <string name="sms">"Номер телефона - получателя"</string>
+    <string name="email">"E-mail получателя"</string>
+
+    <string name="exit">"Выход"</string>
+    <string name="statistic">"Статистика"</string>
+
+    <string name="first_run_title">"Первый запуск программы"</string>
+    <string name="first_run_text">"Это ваш первый запуск программы. Пожалуйста сначало настройте программу!"</string>
+
+    <string name="sms_send">"СМС отправлено!"</string>
+    <string name="unknown_problems">"Неизвестная ошибка"</string>
+    <string name="modul_is_down">"Ваш телефон выключен!"</string>
+
+    <string name="sms_vrong">"Не корректный номер телефона"</string>
+    <string name="sms_sending">"Отправка СМС"</string>
+    <string name="sms_count">"Будет отправленно смс в количестве:"</string>
+
 
 </resources>
