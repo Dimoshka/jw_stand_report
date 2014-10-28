@@ -27,7 +27,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.splunk.mint.Mint;
 
 import java.util.ArrayList;
@@ -51,14 +52,29 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Mint.initAndStartSession(main.this, "354b0769");
-        setContentView(R.layout.main);
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (prefs.getBoolean("analytics", true)) {
+            Mint.initAndStartSession(main.this, "354b0769");
+        }
+
+
+
+        Tracker t = ((AnalyticsSampleApp)this.getApplication()).getTracker(AnalyticsSampleApp.TrackerName.APP_TRACKER);
+        t.setScreenName("main");
+        t.send(new HitBuilders.AppViewBuilder().build());
+
+        t.send(new HitBuilders.EventBuilder()
+                .setCategory("1")
+                .setAction("2")
+                .setLabel("3")
+                .build());
+        t.setScreenName(null);
+
+
+        setContentView(R.layout.main);
         class_sqlite dbOpenHelper = new class_sqlite(this);
         database = dbOpenHelper.openDataBase();
-
         aq = new AQuery(this);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.app_name);
@@ -99,7 +115,6 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
                     .setMessage(getString(R.string.first_run_text))
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            //startActivity(new Intent(main.this, preferences.class));
                             start_settings();
                         }
                     })
@@ -107,8 +122,8 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
             prefs.edit().putBoolean("first_run", false).apply();
         }
 
-        prefs.registerOnSharedPreferenceChangeListener(this);
 
+        prefs.registerOnSharedPreferenceChangeListener(this);
         registerReceiver(sendSms, new IntentFilter(SENT));
     }
 
@@ -159,7 +174,6 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
                 System.exit(0);
                 break;
             case R.id.settings:
-                //(new Intent(this, preferences.class));
                 start_settings();
                 break;
             case R.id.statistic:
@@ -507,23 +521,8 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        //if (prefs.getBoolean("analytics", true)) {
-            EasyTracker.getInstance(this).activityStart(this);
-        //}
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        //if (prefs.getBoolean("analytics", true)) {
-            EasyTracker.getInstance(this).activityStop(this);
-       //}
-    }
-
-    @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         set_default();
+        //GoogleAnalytics.getInstance(getApplicationContext()).setAppOptOut(!prefs.getBoolean("analytics", true));
     }
 }

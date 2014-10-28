@@ -35,5 +35,12 @@
             android:title="@string/email" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/any">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="analytics"
+            android:title="@string/analytics" />
+    </PreferenceCategory>
+
 
 </PreferenceScreen>

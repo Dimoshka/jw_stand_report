@@ -9,7 +9,8 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,10 @@ public class preferences_new extends PreferenceActivity {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Tracker t = ((AnalyticsSampleApp) this.getApplication()).getTracker(
+                AnalyticsSampleApp.TrackerName.ECOMMERCE_TRACKER);
+        t.setScreenName("preferences_new");
+        t.send(new HitBuilders.AppViewBuilder().build());
         addPreferencesFromResource(R.xml.preferences);
 
         class_sqlite dbOpenHelper = new class_sqlite(this);
@@ -63,19 +68,4 @@ public class preferences_new extends PreferenceActivity {
         listPreference.setEntryValues(entryValues);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        //if (prefs.getBoolean("analytics", true)) {
-        EasyTracker.getInstance(this).activityStart(this);
-        //}
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        //if (prefs.getBoolean("analytics", true)) {
-        EasyTracker.getInstance(this).activityStop(this);
-        //}
-    }
 }
