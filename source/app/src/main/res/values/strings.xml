@@ -48,6 +48,8 @@
 
     <string name="type_sms">"СМС"</string>
     <string name="type_email">"E-mail"</string>
+    <string name="any">"Разное"</string>
+    <string name="analytics">"Отчеты о работе программы"</string>
 
     <string name="statistic_write">"Сохранить данные для статистики?"</string>
 

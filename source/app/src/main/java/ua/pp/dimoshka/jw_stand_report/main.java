@@ -27,7 +27,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.analytics.GoogleAnalytics;
 import com.splunk.mint.Mint;
 
 import java.util.ArrayList;
@@ -52,6 +52,7 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Mint.initAndStartSession(main.this, "354b0769");
+        ((MyApplication) getApplication()).getTracker(MyApplication.TrackerName.APP_TRACKER);
         setContentView(R.layout.main);
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         class_sqlite dbOpenHelper = new class_sqlite(this);
@@ -509,17 +510,17 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
     @Override
     public void onStart() {
         super.onStart();
-        //if (prefs.getBoolean("analytics", true)) {
-            EasyTracker.getInstance(this).activityStart(this);
-        //}
+        if (prefs.getBoolean("analytics", true)) {
+            GoogleAnalytics.getInstance(this).reportActivityStart(this);
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        //if (prefs.getBoolean("analytics", true)) {
-            EasyTracker.getInstance(this).activityStop(this);
-       //}
+        if (prefs.getBoolean("analytics", true)) {
+            GoogleAnalytics.getInstance(this).reportActivityStop(this);
+        }
     }
 
     @Override
