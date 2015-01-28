@@ -53,6 +53,9 @@
 
     <string name="statistic_write">"Сохранить данные для статистики?"</string>
 
+    <string name="plus">"+"</string>
+    <string name="minus">"-"</string>
+
     <string-array name="send_report">
         <item>"Только через СМС"</item>
         <item>"Только через e-mail"</item>
