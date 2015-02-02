@@ -5,4 +5,8 @@
     <dimen name="button_radius">6dp</dimen>
     <dimen name="button_margin">2dp</dimen>
     <dimen name="line_margin">6dp</dimen>
+
+    <dimen name="text_size_small">18sp</dimen>
+    <dimen name="text_size">20sp</dimen>
+    <dimen name="text_size_big">26sp</dimen>
 </resources>

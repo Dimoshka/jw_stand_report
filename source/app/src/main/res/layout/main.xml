@@ -35,27 +35,52 @@
                 android:layout_alignParentTop="true"
                 android:text="@string/user"
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="@dimen/text_size_small"
                 android:textStyle="bold|italic" />
 
-            <EditText
+            <TextView
                 android:id="@+id/user"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/settings"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/settings"
+                android:layout_toLeftOf="@+id/settings"
+                android:layout_toStartOf="@+id/settings"
+                android:inputType="textPersonName"
+                android:textColor="@color/blue_dark"
+                android:textSize="@dimen/text_size" />
+
+            <ImageButton
+                android:id="@+id/settings"
+                style="@style/button_blue"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_below="@+id/textView1"
-                android:inputType="textPersonName" />
+                android:src="@android:drawable/ic_menu_preferences" />
+
+            <View
+                android:id="@+id/hr1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/settings"
+                android:layout_margin="@dimen/button_margin"
+                android:background="@color/blue" />
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/date"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/user"
-                android:layout_marginTop="@dimen/line_margin"
+                android:layout_marginRight="@dimen/line_margin"
                 android:text="@string/date"
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="@dimen/text_size_small"
                 android:textStyle="bold|italic" />
 
 
@@ -64,13 +89,15 @@
                 style="@style/button_blue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/textView2"
-                android:layout_marginTop="@dimen/line_margin"
+                android:layout_below="@+id/hr1"
+                android:layout_marginLeft="@dimen/line_margin"
+                android:layout_marginTop="@dimen/button_margin"
+                android:layout_toEndOf="@+id/textView2"
+                android:layout_toRightOf="@+id/textView2"
                 android:gravity="center"
                 android:padding="@dimen/line_margin"
-                android:text="0000-00-00" />
+                android:text="0000-00-00"
+                android:textSize="@dimen/text_size" />
 
 
             <TextView
@@ -83,6 +110,7 @@
                 android:layout_marginTop="@dimen/line_margin"
                 android:text="@string/time"
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="@dimen/text_size_small"
                 android:textStyle="bold|italic" />
 
 
@@ -105,7 +133,8 @@
                     android:padding="@dimen/line_margin"
                     android:text="@string/from"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@android:color/darker_gray" />
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="@dimen/text_size_small" />
 
                 <TextView
                     android:id="@+id/time_start"
@@ -115,7 +144,8 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="@dimen/line_margin"
-                    android:text="00:00" />
+                    android:text="00:00"
+                    android:textSize="@dimen/text_size" />
 
                 <TextView
                     android:id="@+id/textView5"
@@ -124,7 +154,8 @@
                     android:padding="@dimen/line_margin"
                     android:text="@string/to"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@android:color/darker_gray" />
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="@dimen/text_size_small" />
 
                 <TextView
                     android:id="@+id/time_end"
@@ -134,9 +165,19 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="@dimen/line_margin"
-                    android:text="00:00" />
+                    android:text="00:00"
+                    android:textIsSelectable="false"
+                    android:textSize="@dimen/text_size" />
 
             </LinearLayout>
+
+            <View
+                android:id="@+id/hr2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/LinearLayout1"
+                android:layout_margin="@dimen/button_margin"
+                android:background="@color/blue" />
 
             <TextView
                 android:id="@+id/textView6"
@@ -144,10 +185,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/LinearLayout1"
+                android:layout_below="@+id/hr2"
                 android:layout_marginTop="@dimen/line_margin"
                 android:text="@string/location"
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="@dimen/text_size_small"
                 android:textStyle="bold|italic" />
 
             <Spinner
@@ -156,7 +198,16 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/textView6" />
+                android:layout_below="@+id/textView6"
+                android:layout_marginTop="@dimen/button_margin" />
+
+            <View
+                android:id="@+id/hr3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/location"
+                android:layout_margin="@dimen/button_margin"
+                android:background="@color/blue" />
 
             <LinearLayout
                 android:id="@+id/LinearLayout2"
@@ -164,7 +215,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/location"
+                android:layout_below="@+id/hr3"
+                android:layout_marginBottom="@dimen/button_margin"
+                android:layout_marginTop="@dimen/button_margin"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -174,6 +227,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/journals"
+                    android:textSize="@dimen/text_size_small"
                     android:textStyle="bold|italic" />
 
 
@@ -184,13 +238,16 @@
                     android:layout_height="wrap_content"
                     android:text="@string/minus" />
 
-                <EditText
+                <TextView
                     android:id="@+id/journals"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:inputType="number"
-                    android:text="0" />
+                    android:text="0"
+                    android:textColor="@color/blue_dark"
+                    android:textSize="@dimen/text_size_big"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/button_up1"
@@ -207,6 +264,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/LinearLayout2"
+                android:layout_marginBottom="@dimen/button_margin"
+                android:layout_marginTop="@dimen/button_margin"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -216,6 +275,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/broshures"
+                    android:textSize="@dimen/text_size_small"
                     android:textStyle="bold|italic" />
 
 
@@ -226,13 +286,16 @@
                     android:layout_height="wrap_content"
                     android:text="@string/minus" />
 
-                <EditText
+                <TextView
                     android:id="@+id/broshure"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:inputType="number"
-                    android:text="0" />
+                    android:text="0"
+                    android:textColor="@color/blue_dark"
+                    android:textSize="@dimen/text_size_big"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/button_up2"
@@ -249,6 +312,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/LinearLayout3"
+                android:layout_marginBottom="@dimen/button_margin"
+                android:layout_marginTop="@dimen/button_margin"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -258,6 +323,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/books"
+                    android:textSize="@dimen/text_size_small"
                     android:textStyle="bold|italic" />
 
 
@@ -268,13 +334,16 @@
                     android:layout_height="wrap_content"
                     android:text="@string/minus" />
 
-                <EditText
+                <TextView
                     android:id="@+id/books"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:inputType="number"
-                    android:text="0" />
+                    android:text="0"
+                    android:textColor="@color/blue_dark"
+                    android:textSize="@dimen/text_size_big"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/button_up3"
@@ -291,6 +360,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/LinearLayout4"
+                android:layout_marginBottom="@dimen/button_margin"
+                android:layout_marginTop="@dimen/button_margin"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -300,6 +371,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/dvd"
+                    android:textSize="@dimen/text_size_small"
                     android:textStyle="bold|italic" />
 
 
@@ -310,13 +382,16 @@
                     android:layout_height="wrap_content"
                     android:text="@string/minus" />
 
-                <EditText
+                <TextView
                     android:id="@+id/dvd"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:inputType="number"
-                    android:text="0" />
+                    android:text="0"
+                    android:textColor="@color/blue_dark"
+                    android:textSize="@dimen/text_size_big"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/button_up4"
@@ -333,6 +408,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/LinearLayout5"
+                android:layout_marginBottom="@dimen/button_margin"
+                android:layout_marginTop="@dimen/button_margin"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -342,6 +419,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/talks"
+                    android:textSize="@dimen/text_size_small"
                     android:textStyle="bold|italic" />
 
 
@@ -352,13 +430,16 @@
                     android:layout_height="wrap_content"
                     android:text="@string/minus" />
 
-                <EditText
+                <TextView
                     android:id="@+id/talks"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:inputType="number"
-                    android:text="0" />
+                    android:text="0"
+                    android:textColor="@color/blue_dark"
+                    android:textSize="@dimen/text_size_big"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/button_up5"
@@ -376,6 +457,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/LinearLayout6"
+                android:layout_marginBottom="@dimen/button_margin"
+                android:layout_marginTop="@dimen/button_margin"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -385,6 +468,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/repeated_visits"
+                    android:textSize="@dimen/text_size_small"
                     android:textStyle="bold|italic" />
 
 
@@ -395,13 +479,16 @@
                     android:layout_height="wrap_content"
                     android:text="@string/minus" />
 
-                <EditText
+                <TextView
                     android:id="@+id/repeated_visits"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:inputType="number"
-                    android:text="0" />
+                    android:text="0"
+                    android:textColor="@color/blue_dark"
+                    android:textSize="@dimen/text_size_big"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/button_up6"
@@ -418,7 +505,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/LinearLayout7"
-                android:layout_marginBottom="@dimen/line_margin"
+                android:layout_marginBottom="@dimen/button_margin"
+                android:layout_marginTop="@dimen/button_margin"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -428,6 +516,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/blank"
+                    android:textSize="@dimen/text_size_small"
                     android:textStyle="bold|italic" />
 
                 <Button
@@ -437,13 +526,16 @@
                     android:layout_height="wrap_content"
                     android:text="@string/minus" />
 
-                <EditText
+                <TextView
                     android:id="@+id/s43"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:inputType="number"
-                    android:text="0" />
+                    android:text="0"
+                    android:textColor="@color/blue_dark"
+                    android:textSize="@dimen/text_size_big"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/button_up7"
@@ -453,6 +545,14 @@
                     android:text="@string/plus" />
             </LinearLayout>
 
+            <View
+                android:id="@+id/hr4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/LinearLayout8"
+                android:layout_margin="@dimen/button_margin"
+                android:background="@color/blue" />
+
             <Button
                 android:id="@+id/send"
                 style="@style/button_blue"
@@ -460,7 +560,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/LinearLayout8"
+                android:layout_below="@+id/hr4"
                 android:layout_marginTop="@dimen/line_margin"
                 android:text="Отправить" />
 

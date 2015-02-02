@@ -39,15 +39,13 @@ import java.util.regex.Pattern;
 
 public class main extends ActionBarActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private final static String SENT = "SENT_SMS_ACTION", DELIVERED = "DELIVERED_SMS_ACTION", ISNULL = "Entered, not all data";
+    private static SQLiteDatabase database = null;
     private AQuery aq;
     private SharedPreferences prefs;
-    private static SQLiteDatabase database = null;
     private Cursor cursor;
     private class_transliterator translite = new class_transliterator();
     private class_send_sms sendSms = new class_send_sms();
-
-    private final static String SENT = "SENT_SMS_ACTION", DELIVERED = "DELIVERED_SMS_ACTION", ISNULL = "Entered, not all data";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,21 +53,10 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (prefs.getBoolean("analytics", true)) {
             Mint.initAndStartSession(main.this, "354b0769");
+            Tracker t = ((AnalyticsSampleApp) this.getApplication()).getTracker(AnalyticsSampleApp.TrackerName.APP_TRACKER);
+            t.setScreenName("main");
+            t.send(new HitBuilders.AppViewBuilder().build());
         }
-
-
-
-        Tracker t = ((AnalyticsSampleApp)this.getApplication()).getTracker(AnalyticsSampleApp.TrackerName.APP_TRACKER);
-        t.setScreenName("main");
-        t.send(new HitBuilders.AppViewBuilder().build());
-
-        t.send(new HitBuilders.EventBuilder()
-                .setCategory("1")
-                .setAction("2")
-                .setLabel("3")
-                .build());
-        t.setScreenName(null);
-
 
         setContentView(R.layout.main);
         class_sqlite dbOpenHelper = new class_sqlite(this);
@@ -125,6 +112,8 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
 
         prefs.registerOnSharedPreferenceChangeListener(this);
         registerReceiver(sendSms, new IntentFilter(SENT));
+
+        clear();
     }
 
     @Override
@@ -401,9 +390,11 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
 
 
     private void clear() {
-        aq.id(R.id.date).text("0000-00-00");
-        aq.id(R.id.time_start).text("00:00");
-        aq.id(R.id.time_end).text("00:00");
+        //aq.id(R.id.date).text("0000-00-00");
+        date_set(null);
+        time_set();
+        //aq.id(R.id.time_start).text("00:00");
+        //aq.id(R.id.time_end).text("00:00");
         aq.id(R.id.journals).text("0");
         aq.id(R.id.broshure).text("0");
         aq.id(R.id.books).text("0");
@@ -438,11 +429,7 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay,
                                           int minute) {
-                        String h = String.valueOf(hourOfDay);
-                        if (hourOfDay < 10) h = "0" + h;
-                        String m = String.valueOf(minute);
-                        if (minute < 10) m = "0" + m;
-                        aq.id(id).text(h + ":" + m);
+                        time_set_show(id, hourOfDay, minute);
                     }
                 }, hours, minutes, true);
         tpd.show();
@@ -455,14 +442,51 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
                     @Override
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
-                        String m = String.valueOf(monthOfYear);
-                        if (monthOfYear < 10) m = "0" + m;
-                        String d = String.valueOf(dayOfMonth);
-                        if (dayOfMonth < 10) d = "0" + d;
-                        aq.id(R.id.date).text(year + "-" + m + "-" + d);
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(year, monthOfYear, dayOfMonth);
+                        date_set(calendar);
                     }
                 }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
         dpd.show();
+    }
+
+    private void time_set_show(int id, int hours, int minutes) {
+        String h = String.valueOf(hours);
+        if (hours < 10) h = "0" + h;
+        String m = String.valueOf(minutes);
+        if (minutes < 10) m = "0" + m;
+        aq.id(id).text(h + ":" + m);
+    }
+
+    private void time_set() {
+        Calendar c = Calendar.getInstance();
+        int hours = c.get(Calendar.HOUR_OF_DAY);
+        int minutes = 0;
+        if (c.get(Calendar.MINUTE) < 30) minutes = 0;
+        else minutes = 30;
+
+        int hours_start = hours;
+        int minutes_start = 0;
+
+        if (minutes == 30) {
+            hours_start -= 1;
+            minutes_start = 0;
+        } else {
+            hours_start -= 2;
+            minutes_start = 30;
+        }
+
+        time_set_show(R.id.time_start, hours_start, minutes_start);
+        time_set_show(R.id.time_end, hours, minutes);
+    }
+
+    private void date_set(Calendar calendar) {
+        if (calendar == null) calendar = Calendar.getInstance();
+        String m = String.valueOf(calendar.get(Calendar.MONTH));
+        if (calendar.get(Calendar.MONTH) < 10) m = "0" + m;
+        String d = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+        if (calendar.get(Calendar.DAY_OF_MONTH) < 10) d = "0" + d;
+        aq.id(R.id.date).text(calendar.get(Calendar.YEAR) + "-" + m + "-" + d);
     }
 
     public void picker_click(View v) {
