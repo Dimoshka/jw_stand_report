@@ -11,7 +11,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -65,6 +64,8 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.app_name);
+
+        aq.id(R.id.settings).clicked(this, "settings_click");
 
         aq.id(R.id.send).clicked(this, "send_click");
         aq.id(R.id.date).clicked(this, "date_click");
@@ -182,11 +183,7 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
     }
 
     private void start_settings() {
-        if (Build.VERSION.SDK_INT < 11) {
-            startActivity(new Intent(this, preferences_old.class));
-        } else {
-            startActivity(new Intent(this, preferences_new.class));
-        }
+        startActivity(new Intent(this, preferences.class));
     }
 
     private void set_default() {
@@ -487,6 +484,10 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
         String d = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
         if (calendar.get(Calendar.DAY_OF_MONTH) < 10) d = "0" + d;
         aq.id(R.id.date).text(calendar.get(Calendar.YEAR) + "-" + m + "-" + d);
+    }
+
+    public void settings_click(View v) {
+        start_settings();
     }
 
     public void picker_click(View v) {

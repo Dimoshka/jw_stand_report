@@ -5,10 +5,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/accent</item>
+        <item name="android:spinnerItemStyle">@style/spinnerItemStyle</item>
+        <item name="android:spinnerDropDownItemStyle">@style/spinnerDropDownItemStyle</item>
     </style>
 
-    <style name="button_blue">
-        <item name="android:background">@drawable/bt_blue</item>
+    <style name="button_1">
+        <item name="android:background">@drawable/bt_1</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center_vertical|center_horizontal</item>
@@ -16,12 +18,16 @@
         <item name="android:layout_margin">@dimen/button_margin</item>
     </style>
 
-    <style name="button_green">
-        <item name="android:background">@drawable/bt_green</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:gravity">center_vertical|center_horizontal</item>
+    <style name="spinnerItemStyle">
         <item name="android:padding">@dimen/button_margin</item>
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textColor">@color/text_color</item>
+    </style>
+
+    <style name="spinnerDropDownItemStyle">
+        <item name="android:padding">@dimen/button_margin</item>
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textColor">@color/text_color</item>
     </style>
 
 </resources>

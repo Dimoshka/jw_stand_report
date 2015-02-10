@@ -34,15 +34,6 @@
             android:label="@string/settings"
             android:windowSoftInputMode="stateHidden" />
 
-        <activity
-            android:name=".preferences_old"
-            android:label="@string/settings"
-            android:windowSoftInputMode="stateHidden" />
-
-        <activity
-            android:name=".preferences_new"
-            android:label="@string/settings"
-            android:windowSoftInputMode="stateHidden" />
 
     </application>
 

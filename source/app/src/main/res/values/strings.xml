@@ -56,17 +56,20 @@
     <string name="plus">"+"</string>
     <string name="minus">"-"</string>
 
+    <string name="send">"Отправить"</string>
+    <string name="save">"Сохранить"</string>
+
     <string-array name="send_report">
         <item>"Только через СМС"</item>
         <item>"Только через e-mail"</item>
         <item>"Всегда спрашивать"</item>
     </string-array>
 
-    <string-array name="send_report_value">
-        <item>"1"</item>
-        <item>"2"</item>
-        <item>"3"</item>
-    </string-array>
+    <integer-array name="send_report_value">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </integer-array>
 
 
 </resources>

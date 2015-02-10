@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -23,8 +22,7 @@
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            tools:context=".MyActivity">
+            android:paddingTop="@dimen/activity_vertical_margin">
 
             <TextView
                 android:id="@+id/textView1"
@@ -35,6 +33,7 @@
                 android:layout_alignParentTop="true"
                 android:text="@string/user"
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/accent"
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold|italic" />
 
@@ -48,18 +47,18 @@
                 android:layout_alignTop="@+id/settings"
                 android:layout_toLeftOf="@+id/settings"
                 android:layout_toStartOf="@+id/settings"
-                android:inputType="textPersonName"
-                android:textColor="@color/blue_dark"
+                android:textColor="@color/text_color"
                 android:textSize="@dimen/text_size" />
 
             <ImageButton
                 android:id="@+id/settings"
-                style="@style/button_blue"
+                style="@style/button_1"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/textView1"
+                android:contentDescription="@string/app_name"
                 android:src="@android:drawable/ic_menu_preferences" />
 
             <View
@@ -67,8 +66,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/settings"
-                android:layout_margin="@dimen/button_margin"
-                android:background="@color/blue" />
+                android:layout_margin="@dimen/line_margin"
+                android:background="@color/hr_color" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -80,13 +79,14 @@
                 android:layout_marginRight="@dimen/line_margin"
                 android:text="@string/date"
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/accent"
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold|italic" />
 
 
             <TextView
                 android:id="@+id/date"
-                style="@style/button_blue"
+                style="@style/button_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/hr1"
@@ -110,6 +110,7 @@
                 android:layout_marginTop="@dimen/line_margin"
                 android:text="@string/time"
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/accent"
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold|italic" />
 
@@ -133,12 +134,12 @@
                     android:padding="@dimen/line_margin"
                     android:text="@string/from"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@android:color/darker_gray"
+                    android:textColor="@color/accent"
                     android:textSize="@dimen/text_size_small" />
 
                 <TextView
                     android:id="@+id/time_start"
-                    style="@style/button_blue"
+                    style="@style/button_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -154,12 +155,12 @@
                     android:padding="@dimen/line_margin"
                     android:text="@string/to"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@android:color/darker_gray"
+                    android:textColor="@color/accent"
                     android:textSize="@dimen/text_size_small" />
 
                 <TextView
                     android:id="@+id/time_end"
-                    style="@style/button_blue"
+                    style="@style/button_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -177,7 +178,7 @@
                 android:layout_height="1dp"
                 android:layout_below="@+id/LinearLayout1"
                 android:layout_margin="@dimen/button_margin"
-                android:background="@color/blue" />
+                android:background="@color/hr_color" />
 
             <TextView
                 android:id="@+id/textView6"
@@ -189,6 +190,7 @@
                 android:layout_marginTop="@dimen/line_margin"
                 android:text="@string/location"
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/accent"
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold|italic" />
 
@@ -206,8 +208,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/location"
-                android:layout_margin="@dimen/button_margin"
-                android:background="@color/blue" />
+                android:layout_margin="@dimen/line_margin"
+                android:background="@color/hr_color" />
 
             <LinearLayout
                 android:id="@+id/LinearLayout2"
@@ -227,13 +229,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/journals"
+                    android:textColor="@color/accent"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold|italic" />
 
 
                 <Button
                     android:id="@+id/button_down1"
-                    style="@style/button_blue"
+                    style="@style/button_1"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="@string/minus" />
@@ -245,13 +248,13 @@
                     android:gravity="center"
                     android:inputType="number"
                     android:text="0"
-                    android:textColor="@color/blue_dark"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/text_size_big"
                     android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/button_up1"
-                    style="@style/button_blue"
+                    style="@style/button_1"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="@string/plus" />
@@ -275,13 +278,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/broshures"
+                    android:textColor="@color/accent"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold|italic" />
 
 
                 <Button
                     android:id="@+id/button_down2"
-                    style="@style/button_blue"
+                    style="@style/button_1"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="@string/minus" />
@@ -293,13 +297,13 @@
                     android:gravity="center"
                     android:inputType="number"
                     android:text="0"
-                    android:textColor="@color/blue_dark"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/text_size_big"
                     android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/button_up2"
-                    style="@style/button_blue"
+                    style="@style/button_1"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="@string/plus" />
@@ -323,13 +327,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/books"
+                    android:textColor="@color/accent"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold|italic" />
 
 
                 <Button
                     android:id="@+id/button_down3"
-                    style="@style/button_blue"
+                    style="@style/button_1"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="@string/minus" />
@@ -341,13 +346,13 @@
                     android:gravity="center"
                     android:inputType="number"
                     android:text="0"
-                    android:textColor="@color/blue_dark"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/text_size_big"
                     android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/button_up3"
-                    style="@style/button_blue"
+                    style="@style/button_1"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="@string/plus" />
@@ -371,13 +376,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/dvd"
+                    android:textColor="@color/accent"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold|italic" />
 
 
                 <Button
                     android:id="@+id/button_down4"
-                    style="@style/button_blue"
+                    style="@style/button_1"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="@string/minus" />
@@ -389,13 +395,13 @@
                     android:gravity="center"
                     android:inputType="number"
                     android:text="0"
-                    android:textColor="@color/blue_dark"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/text_size_big"
                     android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/button_up4"
-                    style="@style/button_blue"
+                    style="@style/button_1"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="@string/plus" />
@@ -419,13 +425,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/talks"
+                    android:textColor="@color/accent"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold|italic" />
 
 
                 <Button
                     android:id="@+id/button_down5"
-                    style="@style/button_blue"
+                    style="@style/button_1"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="@string/minus" />
@@ -437,13 +444,13 @@
                     android:gravity="center"
                     android:inputType="number"
                     android:text="0"
-                    android:textColor="@color/blue_dark"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/text_size_big"
                     android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/button_up5"
-                    style="@style/button_blue"
+                    style="@style/button_1"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="@string/plus" />
@@ -468,13 +475,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/repeated_visits"
+                    android:textColor="@color/accent"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold|italic" />
 
 
                 <Button
                     android:id="@+id/button_down6"
-                    style="@style/button_blue"
+                    style="@style/button_1"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="@string/minus" />
@@ -486,13 +494,13 @@
                     android:gravity="center"
                     android:inputType="number"
                     android:text="0"
-                    android:textColor="@color/blue_dark"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/text_size_big"
                     android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/button_up6"
-                    style="@style/button_blue"
+                    style="@style/button_1"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="@string/plus" />
@@ -516,12 +524,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/blank"
+                    android:textColor="@color/accent"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold|italic" />
 
                 <Button
                     android:id="@+id/button_down7"
-                    style="@style/button_blue"
+                    style="@style/button_1"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="@string/minus" />
@@ -533,13 +542,13 @@
                     android:gravity="center"
                     android:inputType="number"
                     android:text="0"
-                    android:textColor="@color/blue_dark"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/text_size_big"
                     android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/button_up7"
-                    style="@style/button_blue"
+                    style="@style/button_1"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="@string/plus" />
@@ -551,18 +560,18 @@
                 android:layout_height="1dp"
                 android:layout_below="@+id/LinearLayout8"
                 android:layout_margin="@dimen/button_margin"
-                android:background="@color/blue" />
+                android:background="@color/hr_color" />
 
             <Button
                 android:id="@+id/send"
-                style="@style/button_blue"
+                style="@style/button_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/hr4"
                 android:layout_marginTop="@dimen/line_margin"
-                android:text="Отправить" />
+                android:text="@string/send" />
 
 
         </RelativeLayout>
