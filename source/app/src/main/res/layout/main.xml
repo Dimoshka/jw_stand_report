@@ -96,7 +96,7 @@
                 android:layout_toRightOf="@+id/textView2"
                 android:gravity="center"
                 android:padding="@dimen/line_margin"
-                android:text="0000-00-00"
+                android:text="@string/test_date"
                 android:textSize="@dimen/text_size" />
 
 
@@ -145,7 +145,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="@dimen/line_margin"
-                    android:text="00:00"
+                    android:text="@string/test_time"
                     android:textSize="@dimen/text_size" />
 
                 <TextView
@@ -166,7 +166,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="@dimen/line_margin"
-                    android:text="00:00"
+                    android:text="@string/test_time"
                     android:textIsSelectable="false"
                     android:textSize="@dimen/text_size" />
 
@@ -247,7 +247,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:inputType="number"
-                    android:text="0"
+                    android:text="@string/test_ziro"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/text_size_big"
                     android:textStyle="bold" />
@@ -296,7 +296,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:inputType="number"
-                    android:text="0"
+                    android:text="@string/test_ziro"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/text_size_big"
                     android:textStyle="bold" />
@@ -345,7 +345,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:inputType="number"
-                    android:text="0"
+                    android:text="@string/test_ziro"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/text_size_big"
                     android:textStyle="bold" />
@@ -394,7 +394,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:inputType="number"
-                    android:text="0"
+                    android:text="@string/test_ziro"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/text_size_big"
                     android:textStyle="bold" />
@@ -443,7 +443,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:inputType="number"
-                    android:text="0"
+                    android:text="@string/test_ziro"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/text_size_big"
                     android:textStyle="bold" />
@@ -493,7 +493,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:inputType="number"
-                    android:text="0"
+                    android:text="@string/test_ziro"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/text_size_big"
                     android:textStyle="bold" />
@@ -541,7 +541,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:inputType="number"
-                    android:text="0"
+                    android:text="@string/test_ziro"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/text_size_big"
                     android:textStyle="bold" />

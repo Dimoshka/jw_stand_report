@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">JW stand отчет</string>
+    <string name="app_name_shot">JW_stand</string>
     <string name="db_name">"jw_stand_report.sqlite3"</string>
     <string name="db_version">"1"</string>
 
@@ -42,7 +43,8 @@
     <string name="email_vrong">"Не корректный e-mail"</string>
     <string name="sms_sending">"Отправка СМС"</string>
     <string name="email_sending">"Отправка E-mail"</string>
-    <string name="sms_count">"Будет отправленно смс в количестве:"</string>
+    <string name="sms_text">"Текст сообщения:"</string>
+    <string name="sms_count">"Количество СМС:"</string>
     <string name="send_settings">"Настройка отправки"</string>
     <string name="send_type">"Способ отправки"</string>
 
@@ -58,6 +60,12 @@
 
     <string name="send">"Отправить"</string>
     <string name="save">"Сохранить"</string>
+
+    <string name="test_time">"00:00"</string>
+    <string name="test_date">"0000-00-00"</string>
+    <string name="test_phone">"380931234567"</string>
+    <string name="test_ziro">"0"</string>
+    <string name="test_email">"name@email.com"</string>
 
     <string-array name="send_report">
         <item>"Только через СМС"</item>

@@ -52,9 +52,9 @@ public class preferences extends ActionBarActivity implements SharedPreferences.
 
         prefs.registerOnSharedPreferenceChangeListener(this);
 
-        aq.id(R.id.button_down1).clicked(this, "now_click");
+        aq.id(R.id.save).clicked(this, "now_click");
 
-        // set_default();
+        set_default();
     }
 
 
@@ -64,17 +64,18 @@ public class preferences extends ActionBarActivity implements SharedPreferences.
 
         switch (id) {
             case R.id.save:
+                SharedPreferences.Editor ed = prefs.edit();
+                ed.putString("user", aq.id(R.id.user).getText().toString());
+                ed.putString("meeting", aq.id(R.id.meeting).getText().toString());
 
-                prefs.edit().putString("user", aq.id(R.id.user).getText().toString());
-                prefs.edit().putString("meeting", aq.id(R.id.meeting).getText().toString());
+                cursor.moveToPosition(aq.id(R.id.location).getSelectedItemPosition());
+                ed.putInt("location", cursor.getInt(cursor.getColumnIndex("_id")));
+                ed.putInt("send_type", aq.id(R.id.send_type).getSelectedItemPosition());
 
-                prefs.edit().putInt("location", aq.id(R.id.location).getSelectedItemPosition());
-                prefs.edit().putInt("send_type", aq.id(R.id.send_type).getSelectedItemPosition());
-
-                prefs.edit().putString("sms", aq.id(R.id.sms).getText().toString());
-                prefs.edit().putString("email", aq.id(R.id.email).getText().toString());
-                prefs.edit().putBoolean("analytics", aq.id(R.id.analytics).isChecked());
-
+                ed.putString("sms", aq.id(R.id.sms).getText().toString());
+                ed.putString("email", aq.id(R.id.email).getText().toString());
+                ed.putBoolean("analytics", aq.id(R.id.analytics).isChecked());
+                ed.apply();
                 finish();
                 break;
         }
@@ -111,22 +112,21 @@ public class preferences extends ActionBarActivity implements SharedPreferences.
 
         aq.id(R.id.user).text(prefs.getString("user", ""));
         aq.id(R.id.meeting).text(prefs.getString("meeting", ""));
-        aq.id(R.id.location).setSelection(prefs.getInt("location", 1));
-        aq.id(R.id.send_type).setSelection(prefs.getInt("send_type", 3));
+        //aq.id(R.id.location).setSelection(prefs.getInt("location", 0));
+        aq.id(R.id.send_type).setSelection(prefs.getInt("send_type", 2));
         aq.id(R.id.sms).text(prefs.getString("sms", ""));
         aq.id(R.id.email).text(prefs.getString("email", ""));
         aq.id(R.id.analytics).checked(prefs.getBoolean("analytics", true));
 
-/*
         cursor.moveToFirst();
         for (int i = 0; i < cursor.getCount(); i++) {
-            if (cursor.getInt(cursor.getColumnIndex("_id")) == Integer.parseInt(prefs.getString("location", "1"))) {
+            if (cursor.getInt(cursor.getColumnIndex("_id")) == prefs.getInt("location", 1)) {
                 aq.id(R.id.location).setSelection(i);
                 break;
             }
             cursor.moveToNext();
         }
-        */
+
     }
 
     @Override

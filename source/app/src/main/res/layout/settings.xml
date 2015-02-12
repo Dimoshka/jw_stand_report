@@ -127,7 +127,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="phone"
                 android:textColor="@color/text_color"
-                android:textSize="@dimen/text_size" />
+                android:textSize="@dimen/text_size"
+                android:hint="@string/test_phone"/>
 
             <TextView
                 android:id="@+id/textView5"
@@ -145,7 +146,9 @@
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/text_color"
-                android:textSize="@dimen/text_size" />
+                android:textSize="@dimen/text_size"
+                android:hint="@string/test_email"
+                />
 
             <CheckBox
                 android:id="@+id/analytics"

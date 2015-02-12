@@ -48,73 +48,77 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (prefs.getBoolean("analytics", true)) {
-            Mint.initAndStartSession(main.this, "354b0769");
-            Tracker t = ((AnalyticsSampleApp) this.getApplication()).getTracker(AnalyticsSampleApp.TrackerName.APP_TRACKER);
-            t.setScreenName("main");
-            t.send(new HitBuilders.AppViewBuilder().build());
+        try {
+            super.onCreate(savedInstanceState);
+            prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            if (prefs.getBoolean("analytics", true)) {
+                Mint.initAndStartSession(main.this, "354b0769");
+                Tracker t = ((AnalyticsSampleApp) this.getApplication()).getTracker(AnalyticsSampleApp.TrackerName.APP_TRACKER);
+                t.setScreenName("main");
+                t.send(new HitBuilders.AppViewBuilder().build());
+            }
+
+            setContentView(R.layout.main);
+            class_sqlite dbOpenHelper = new class_sqlite(this);
+            database = dbOpenHelper.openDataBase();
+            aq = new AQuery(this);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            toolbar.setTitle(R.string.app_name);
+
+            aq.id(R.id.settings).clicked(this, "settings_click");
+
+            aq.id(R.id.send).clicked(this, "send_click");
+            aq.id(R.id.date).clicked(this, "date_click");
+
+            aq.id(R.id.time_start).clicked(this, "time_click");
+            aq.id(R.id.time_end).clicked(this, "time_click");
+
+            aq.id(R.id.button_down1).clicked(this, "picker_click");
+            aq.id(R.id.button_down2).clicked(this, "picker_click");
+            aq.id(R.id.button_down3).clicked(this, "picker_click");
+            aq.id(R.id.button_down4).clicked(this, "picker_click");
+            aq.id(R.id.button_down5).clicked(this, "picker_click");
+            aq.id(R.id.button_down6).clicked(this, "picker_click");
+            aq.id(R.id.button_down7).clicked(this, "picker_click");
+
+            aq.id(R.id.button_up1).clicked(this, "picker_click");
+            aq.id(R.id.button_up2).clicked(this, "picker_click");
+            aq.id(R.id.button_up3).clicked(this, "picker_click");
+            aq.id(R.id.button_up4).clicked(this, "picker_click");
+            aq.id(R.id.button_up5).clicked(this, "picker_click");
+            aq.id(R.id.button_up6).clicked(this, "picker_click");
+            aq.id(R.id.button_up7).clicked(this, "picker_click");
+
+            cursor = database.query("location",
+                    new String[]{"_id", "name"}, null, null, null, null, "_id");
+            SimpleCursorAdapter loc_adapter = new SimpleCursorAdapter(
+                    this, android.R.layout.simple_spinner_dropdown_item, cursor, new String[]{"name"}, new int[]{android.R.id.text1}, 0);
+            aq.id(R.id.location).adapter(loc_adapter);
+
+            set_default();
+
+            if (prefs.getBoolean("first_run", true)) {
+                new AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.first_run_title))
+                        .setMessage(getString(R.string.first_run_text))
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                start_settings();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null).show();
+                prefs.edit().putBoolean("first_run", false).apply();
+            }
+
+
+            prefs.registerOnSharedPreferenceChangeListener(this);
+            registerReceiver(sendSms, new IntentFilter(SENT));
+
+            clear();
+        } catch (Exception ex) {
+            send_error(ex);
         }
-
-        setContentView(R.layout.main);
-        class_sqlite dbOpenHelper = new class_sqlite(this);
-        database = dbOpenHelper.openDataBase();
-        aq = new AQuery(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(R.string.app_name);
-
-        aq.id(R.id.settings).clicked(this, "settings_click");
-
-        aq.id(R.id.send).clicked(this, "send_click");
-        aq.id(R.id.date).clicked(this, "date_click");
-
-        aq.id(R.id.time_start).clicked(this, "time_click");
-        aq.id(R.id.time_end).clicked(this, "time_click");
-
-        aq.id(R.id.button_down1).clicked(this, "picker_click");
-        aq.id(R.id.button_down2).clicked(this, "picker_click");
-        aq.id(R.id.button_down3).clicked(this, "picker_click");
-        aq.id(R.id.button_down4).clicked(this, "picker_click");
-        aq.id(R.id.button_down5).clicked(this, "picker_click");
-        aq.id(R.id.button_down6).clicked(this, "picker_click");
-        aq.id(R.id.button_down7).clicked(this, "picker_click");
-
-        aq.id(R.id.button_up1).clicked(this, "picker_click");
-        aq.id(R.id.button_up2).clicked(this, "picker_click");
-        aq.id(R.id.button_up3).clicked(this, "picker_click");
-        aq.id(R.id.button_up4).clicked(this, "picker_click");
-        aq.id(R.id.button_up5).clicked(this, "picker_click");
-        aq.id(R.id.button_up6).clicked(this, "picker_click");
-        aq.id(R.id.button_up7).clicked(this, "picker_click");
-
-        cursor = database.query("location",
-                new String[]{"_id", "name"}, null, null, null, null, "_id");
-        SimpleCursorAdapter loc_adapter = new SimpleCursorAdapter(
-                this, android.R.layout.simple_spinner_dropdown_item, cursor, new String[]{"name"}, new int[]{android.R.id.text1}, 0);
-        aq.id(R.id.location).adapter(loc_adapter);
-
-        set_default();
-
-        if (prefs.getBoolean("first_run", true)) {
-            new AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.first_run_title))
-                    .setMessage(getString(R.string.first_run_text))
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            start_settings();
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, null).show();
-            prefs.edit().putBoolean("first_run", false).apply();
-        }
-
-
-        prefs.registerOnSharedPreferenceChangeListener(this);
-        registerReceiver(sendSms, new IntentFilter(SENT));
-
-        clear();
     }
 
     @Override
@@ -187,194 +191,220 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
     }
 
     private void set_default() {
-        aq.id(R.id.user).text(prefs.getString("user", ""));
-        cursor.moveToFirst();
-        for (int i = 0; i < cursor.getCount(); i++) {
-            if (cursor.getInt(cursor.getColumnIndex("_id")) == Integer.parseInt(prefs.getString("location", "1"))) {
-                aq.id(R.id.location).setSelection(i);
-                break;
+        try {
+            aq.id(R.id.user).text(prefs.getString("user", ""));
+            cursor.moveToFirst();
+            for (int i = 0; i < cursor.getCount(); i++) {
+                if (cursor.getInt(cursor.getColumnIndex("_id")) == prefs.getInt("location", 1)) {
+                    aq.id(R.id.location).setSelection(i);
+                    break;
+                }
+                cursor.moveToNext();
             }
-            cursor.moveToNext();
+        } catch (Exception ex) {
+            send_error(ex);
         }
     }
 
     private String get_shot_text(String text, int lenth) {
-        String[] word = text.split(" ");
-        text = "";
-        for (int i = 0; i < word.length; i++) {
-            if (text.length() > 0) text += " ";
-            if (word[i].length() > lenth) text += word[i].substring(0, lenth);
-            else text += word[i];
+        try {
+            String[] word = text.split(" ");
+            text = "";
+            for (int i = 0; i < word.length; i++) {
+                if (text.length() > 0) text += " ";
+                if (word[i].length() > lenth) text += word[i].substring(0, lenth);
+                else text += word[i];
+            }
+        } catch (Exception ex) {
+            send_error(ex);
         }
         return text;
     }
 
     public void send_click(View v) {
+        try {
+            cursor.moveToPosition(aq.id(R.id.location).getSelectedItemPosition());
+            //int id_stand = cursor.getString(cursor.getColumnIndex("name"));
 
-        cursor.moveToPosition(aq.id(R.id.location).getSelectedItemPosition());
-        //int id_stand = cursor.getString(cursor.getColumnIndex("name"));
+            String user = aq.id(R.id.user).getText().toString();
+            String date = aq.id(R.id.date).getText().toString();
+            String time_start = aq.id(R.id.time_start).getText().toString();
+            String time_end = aq.id(R.id.time_end).getText().toString();
 
-        String user = aq.id(R.id.user).getText().toString();
-        String date = aq.id(R.id.date).getText().toString();
-        String time_start = aq.id(R.id.time_start).getText().toString();
-        String time_end = aq.id(R.id.time_end).getText().toString();
+            if (user.length() > 4 && !date.equals(getString(R.string.test_date)) && !time_start.equals(getString(R.string.test_time)) && !time_end.equals(getString(R.string.test_time))) {
+                int send_type = prefs.getInt("send_type", 2);
+                if (send_type == 2) {
+                    new AlertDialog.Builder(this)
+                            .setTitle(getString(R.string.send_type))
+                            .setPositiveButton(R.string.type_sms, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    send_sms(get_message(0));
+                                    return;
+                                }
+                            })
+                            .setNegativeButton(R.string.type_email, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    send_mail(get_message(1));
+                                    return;
+                                }
+                            })
+                            .show();
+                }
 
-        if (user.length() > 4 && !date.equals("0000-00-00") && !time_start.equals("00:00") && !time_end.equals("00:00")) {
-            int send_type = Integer.parseInt(prefs.getString("send_type", "3"));
-            if (send_type == 3) {
-                new AlertDialog.Builder(this)
-                        .setTitle(getString(R.string.send_type))
-                        .setPositiveButton(R.string.type_sms, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                send_sms(get_message(1));
-                                return;
-                            }
-                        })
-                        .setNegativeButton(R.string.type_email, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                send_mail(get_message(2));
-                                return;
-                            }
-                        })
-                        .show();
+                switch (send_type) {
+                    case 0:
+                        send_sms(get_message(send_type));
+                        break;
+                    case 1:
+                        send_mail(get_message(send_type));
+                        break;
+                }
+            } else {
+                Toast.makeText(this, getString(R.string.vrong), Toast.LENGTH_LONG).show();
             }
-
-            switch (send_type) {
-                case 1:
-                    send_sms(get_message(send_type));
-                    break;
-                case 2:
-                    send_mail(get_message(send_type));
-                    break;
-            }
-        } else {
-            Toast.makeText(this, getString(R.string.vrong), Toast.LENGTH_LONG).show();
+        } catch (Exception ex) {
+            send_error(ex);
         }
     }
 
     private String get_message(int send_type) {
-        cursor.moveToPosition(aq.id(R.id.location).getSelectedItemPosition());
         String message = "";
+        try {
+            cursor.moveToPosition(aq.id(R.id.location).getSelectedItemPosition());
 
-        switch (send_type) {
-            case 1:
-                message = "JW_STAND " + get_shot_text(translite.transliterate(cursor.getString(cursor.getColumnIndex("name"))), 10)
-                        + "; " + get_shot_text(translite.transliterate(aq.id(R.id.user).getText().toString()), 10)
-                        + "; " + aq.id(R.id.date).getText().toString()//.replace("-", "")
-                        + "; " + aq.id(R.id.time_start).getText().toString()//.replace(":", "")
-                        + "-" + aq.id(R.id.time_end).getText().toString()//.replace(":", "")
-                        + "; j:" + aq.id(R.id.journals).getText().toString()
-                        + "; br:" + aq.id(R.id.broshure).getText().toString()
-                        + "; b:" + aq.id(R.id.books).getText().toString()
-                        + "; d:" + aq.id(R.id.dvd).getText().toString()
-                        + "; t:" + aq.id(R.id.talks).getText().toString()
-                        + "; r:" + aq.id(R.id.repeated_visits).getText().toString()
-                        + "; s:" + aq.id(R.id.s43).getText().toString();
-                break;
-            case 2:
-                message = "JW_STAND " + cursor.getString(cursor.getColumnIndex("name"))
-                        + "\n\r\n" + aq.id(R.id.user).getText().toString()
-                        + "\n\r\n" + aq.id(R.id.date).getText().toString()
-                        + " " + aq.id(R.id.time_start).getText().toString()
-                        + " - " + aq.id(R.id.time_end).getText().toString()
-                        + "\r\njournal: " + aq.id(R.id.journals).getText().toString()
-                        + "\r\nbroshure: " + aq.id(R.id.broshure).getText().toString()
-                        + "\r\nbook: " + aq.id(R.id.books).getText().toString()
-                        + "\r\ndvd: " + aq.id(R.id.dvd).getText().toString()
-                        + "\r\ntalk: " + aq.id(R.id.talks).getText().toString()
-                        + "\r\nrepeated visits: " + aq.id(R.id.repeated_visits).getText().toString()
-                        + "\r\ns43: " + aq.id(R.id.s43).getText().toString();
-                break;
+            switch (send_type) {
+                case 0:
+                    message = "JW_STAND " + get_shot_text(translite.transliterate(cursor.getString(cursor.getColumnIndex("name"))), 10)
+                            + "\r\n" + get_shot_text(translite.transliterate(aq.id(R.id.user).getText().toString()), 10)
+                            + "\r\n" + aq.id(R.id.date).getText().toString()//.replace("-", "")
+                            + "\r\n" + aq.id(R.id.time_start).getText().toString()//.replace(":", "")
+                            + "-" + aq.id(R.id.time_end).getText().toString()//.replace(":", "")
+                            + "\r\nj:" + aq.id(R.id.journals).getText().toString()
+                            + "\r\nbr:" + aq.id(R.id.broshure).getText().toString()
+                            + "\r\nb:" + aq.id(R.id.books).getText().toString()
+                            + "\r\nd" + aq.id(R.id.dvd).getText().toString()
+                            + "\r\nt:" + aq.id(R.id.talks).getText().toString()
+                            + "\r\nr:" + aq.id(R.id.repeated_visits).getText().toString()
+                            + "\r\ns:" + aq.id(R.id.s43).getText().toString();
+                    break;
+                case 1:
+                    message =  getString(R.string.app_name_shot) + " " + cursor.getString(cursor.getColumnIndex("name"))
+                            + "\n\r\n" + aq.id(R.id.user).getText().toString()
+                            + "\n\r\n" + aq.id(R.id.date).getText().toString()
+                            + " " + aq.id(R.id.time_start).getText().toString()
+                            + " - " + aq.id(R.id.time_end).getText().toString()
+                            + "\r\n" + getString(R.string.journals) + ": " + aq.id(R.id.journals).getText().toString()
+                            + "\r\n" + getString(R.string.broshures) + ": " + aq.id(R.id.broshure).getText().toString()
+                            + "\r\n" + getString(R.string.books) + ": " + aq.id(R.id.books).getText().toString()
+                            + "\r\n" + getString(R.string.dvd) + ": " + aq.id(R.id.dvd).getText().toString()
+                            + "\r\n" + getString(R.string.talks) + ": " + aq.id(R.id.talks).getText().toString()
+                            + "\r\n" + getString(R.string.repeated_visits) + ": " + aq.id(R.id.repeated_visits).getText().toString()
+                            + "\r\n" + getString(R.string.blank) + ": " + aq.id(R.id.s43).getText().toString();
+                    break;
+            }
+            Log.e("11", message.length() + "");
+            Log.e("11", message);
+        } catch (Exception ex) {
+            send_error(ex);
         }
-        Log.e("11", message.length() + "");
-        Log.e("11", message);
         return message;
     }
 
     private void write_statistic() {
-        new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.statistic))
-                .setMessage(getString(R.string.statistic_write))
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        cursor.moveToPosition(aq.id(R.id.location).getSelectedItemPosition());
-                        int id_stand = cursor.getInt(cursor.getColumnIndex("_id"));
-                        String user = aq.id(R.id.user).getText().toString();
-                        String date = aq.id(R.id.date).getText().toString();
-                        String time_start = aq.id(R.id.time_start).getText().toString();
-                        String time_end = aq.id(R.id.time_end).getText().toString();
+        try {
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.statistic))
+                    .setMessage(getString(R.string.statistic_write))
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            cursor.moveToPosition(aq.id(R.id.location).getSelectedItemPosition());
+                            int id_stand = cursor.getInt(cursor.getColumnIndex("_id"));
+                            String user = aq.id(R.id.user).getText().toString();
+                            String date = aq.id(R.id.date).getText().toString();
+                            String time_start = aq.id(R.id.time_start).getText().toString();
+                            String time_end = aq.id(R.id.time_end).getText().toString();
 
-                        int journal = Integer.parseInt(aq.id(R.id.journals).getText().toString());
-                        int broshure = Integer.parseInt(aq.id(R.id.broshure).getText().toString());
-                        int book = Integer.parseInt(aq.id(R.id.books).getText().toString());
-                        int dvd = Integer.parseInt(aq.id(R.id.dvd).getText().toString());
-                        int talk = Integer.parseInt(aq.id(R.id.talks).getText().toString());
-                        int repeated_visit = Integer.parseInt(aq.id(R.id.repeated_visits).getText().toString());
-                        int s43 = Integer.parseInt(aq.id(R.id.s43).getText().toString());
+                            int journal = Integer.parseInt(aq.id(R.id.journals).getText().toString());
+                            int broshure = Integer.parseInt(aq.id(R.id.broshure).getText().toString());
+                            int book = Integer.parseInt(aq.id(R.id.books).getText().toString());
+                            int dvd = Integer.parseInt(aq.id(R.id.dvd).getText().toString());
+                            int talk = Integer.parseInt(aq.id(R.id.talks).getText().toString());
+                            int repeated_visit = Integer.parseInt(aq.id(R.id.repeated_visits).getText().toString());
+                            int s43 = Integer.parseInt(aq.id(R.id.s43).getText().toString());
 
-                        ContentValues init = new ContentValues();
-                        init.put("id_stand", id_stand);
-                        init.put("user", user);
-                        init.put("date", date);
-                        init.put("time_start", time_start);
-                        init.put("time_end", time_end);
-                        init.put("journal", journal);
-                        init.put("broshure", broshure);
-                        init.put("book", book);
-                        init.put("dvd", dvd);
-                        init.put("repeated_visit", repeated_visit);
-                        init.put("talk", talk);
-                        init.put("s_blank", s43);
-                        database.insert("statistic", null, init);
-                        clear();
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        clear();
-                    }
-                })
-                .show();
-
+                            ContentValues init = new ContentValues();
+                            init.put("id_stand", id_stand);
+                            init.put("user", user);
+                            init.put("date", date);
+                            init.put("time_start", time_start);
+                            init.put("time_end", time_end);
+                            init.put("journal", journal);
+                            init.put("broshure", broshure);
+                            init.put("book", book);
+                            init.put("dvd", dvd);
+                            init.put("repeated_visit", repeated_visit);
+                            init.put("talk", talk);
+                            init.put("s_blank", s43);
+                            database.insert("statistic", null, init);
+                            clear();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            clear();
+                        }
+                    })
+                    .show();
+        } catch (Exception ex) {
+            send_error(ex);
+        }
     }
 
     private void send_sms(String message) {
-        final String sms = prefs.getString("sms", "").replace("(", "").replace(")", "").replace(" ", "").replace("-", "");
-        if (sms.length() > 8) {
+        try {
+            final String sms = prefs.getString("sms", "").replace("(", "").replace(")", "").replace(" ", "").replace("-", "").replace("+", "");
+            if (sms.length() > 9) {
 
-            PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
-            final SmsManager smsManager = SmsManager.getDefault();
-            final ArrayList<String> mArray = smsManager.divideMessage(message);
-            final ArrayList<PendingIntent> sentArrayIntents = new ArrayList<PendingIntent>();
-            for (int i = 0; i < mArray.size(); i++) {
-                sentArrayIntents.add(sentPI);
-                Log.e("22", mArray.get(i));
-            }
-            new AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.sms_sending))
-                    .setMessage(getString(R.string.sms_count) + " " + mArray.size())
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            smsManager.sendMultipartTextMessage(sms, null, mArray, sentArrayIntents, null);
-                            write_statistic();
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, null)
-                    .show();
-        } else Toast.makeText(this, getString(R.string.sms_vrong), Toast.LENGTH_LONG).show();
+                PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
+                final SmsManager smsManager = SmsManager.getDefault();
+                final ArrayList<String> mArray = smsManager.divideMessage(message);
+                final ArrayList<PendingIntent> sentArrayIntents = new ArrayList<PendingIntent>();
+                for (int i = 0; i < mArray.size(); i++) {
+                    sentArrayIntents.add(sentPI);
+                    Log.e("22", mArray.get(i));
+                }
+                new AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.sms_sending))
+                        .setMessage(getString(R.string.sms_text) + "\r\n\r\n" + message + "\r\n\r\n" + getString(R.string.sms_count) + " " + mArray.size())
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                smsManager.sendMultipartTextMessage(sms, null, mArray, sentArrayIntents, null);
+                                write_statistic();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .show();
+            } else Toast.makeText(this, getString(R.string.sms_vrong), Toast.LENGTH_LONG).show();
+        } catch (Exception ex) {
+            send_error(ex);
+        }
     }
 
     private void send_mail(String message) {
-        final String email = prefs.getString("email", "");
-        if (email.length() > 6 && email_validate(email)) {
-            final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-            emailIntent.setType("plain/text");
-            emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{email});
-            emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "JW_STAND " + aq.id(R.id.user).getText().toString());
-            emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
-            startActivity(Intent.createChooser(emailIntent, getString(R.string.email_sending)));
-            write_statistic();
-        } else Toast.makeText(this, getString(R.string.email_vrong), Toast.LENGTH_LONG).show();
+        try {
+            final String email = prefs.getString("email", "");
+            if (email.length() > 6 && email_validate(email)) {
+                final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+                emailIntent.setType("plain/text");
+                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{email});
+                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "JW_STAND " + aq.id(R.id.user).getText().toString());
+                emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
+                startActivity(Intent.createChooser(emailIntent, getString(R.string.email_sending)));
+                write_statistic();
+            } else Toast.makeText(this, getString(R.string.email_vrong), Toast.LENGTH_LONG).show();
+        } catch (Exception ex) {
+            send_error(ex);
+        }
     }
 
 
@@ -387,103 +417,127 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
 
 
     private void clear() {
-        //aq.id(R.id.date).text("0000-00-00");
-        date_set(null);
-        time_set();
-        //aq.id(R.id.time_start).text("00:00");
-        //aq.id(R.id.time_end).text("00:00");
-        aq.id(R.id.journals).text("0");
-        aq.id(R.id.broshure).text("0");
-        aq.id(R.id.books).text("0");
-        aq.id(R.id.dvd).text("0");
-        aq.id(R.id.talks).text("0");
-        aq.id(R.id.repeated_visits).text("0");
-        aq.id(R.id.s43).text("0");
+        try {
+            //aq.id(R.id.date).text("0000-00-00");
+            date_set(null);
+            time_set();
+            //aq.id(R.id.time_start).text("00:00");
+            //aq.id(R.id.time_end).text("00:00");
+            aq.id(R.id.journals).text(R.string.test_ziro);
+            aq.id(R.id.broshure).text(R.string.test_ziro);
+            aq.id(R.id.books).text(R.string.test_ziro);
+            aq.id(R.id.dvd).text(R.string.test_ziro);
+            aq.id(R.id.talks).text(R.string.test_ziro);
+            aq.id(R.id.repeated_visits).text(R.string.test_ziro);
+            aq.id(R.id.s43).text(R.string.test_ziro);
+        } catch (Exception ex) {
+            send_error(ex);
+        }
     }
 
     public void time_click(final View v) {
-        Calendar c = Calendar.getInstance();
+        try {
+            Calendar c = Calendar.getInstance();
 
-        final int id = v.getId();
-        int hours = c.get(Calendar.HOUR_OF_DAY);
-        int minutes = 0;
-        if (c.get(Calendar.MINUTE) < 30) minutes = 0;
-        else minutes = 30;
+            final int id = v.getId();
+            int hours = c.get(Calendar.HOUR_OF_DAY);
+            int minutes = 0;
+            if (c.get(Calendar.MINUTE) < 30) minutes = 0;
+            else minutes = 30;
 
 
-        if (id == R.id.time_start) {
-            if (minutes == 30) {
-                hours -= 1;
-                minutes = 0;
-            } else {
-                hours -= 2;
-                minutes = 30;
+            if (id == R.id.time_start) {
+                if (minutes == 30) {
+                    hours -= 1;
+                    minutes = 0;
+                } else {
+                    hours -= 2;
+                    minutes = 30;
+                }
             }
-        }
 
-        TimePickerDialog tpd = new TimePickerDialog(this,
-                new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay,
-                                          int minute) {
-                        time_set_show(id, hourOfDay, minute);
-                    }
-                }, hours, minutes, true);
-        tpd.show();
+            TimePickerDialog tpd = new TimePickerDialog(this,
+                    new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay,
+                                              int minute) {
+                            time_set_show(id, hourOfDay, minute);
+                        }
+                    }, hours, minutes, true);
+            tpd.show();
+        } catch (Exception ex) {
+            send_error(ex);
+        }
     }
 
     public void date_click(View v) {
-        Calendar c = Calendar.getInstance();
-        DatePickerDialog dpd = new DatePickerDialog(this,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year,
-                                          int monthOfYear, int dayOfMonth) {
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(year, monthOfYear, dayOfMonth);
-                        date_set(calendar);
-                    }
-                }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
-        dpd.show();
+        try {
+            Calendar c = Calendar.getInstance();
+            DatePickerDialog dpd = new DatePickerDialog(this,
+                    new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year,
+                                              int monthOfYear, int dayOfMonth) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            date_set(calendar);
+                        }
+                    }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+            dpd.show();
+        } catch (Exception ex) {
+            send_error(ex);
+        }
     }
 
     private void time_set_show(int id, int hours, int minutes) {
-        String h = String.valueOf(hours);
-        if (hours < 10) h = "0" + h;
-        String m = String.valueOf(minutes);
-        if (minutes < 10) m = "0" + m;
-        aq.id(id).text(h + ":" + m);
+        try {
+            String h = String.valueOf(hours);
+            if (hours < 10) h = "0" + h;
+            String m = String.valueOf(minutes);
+            if (minutes < 10) m = "0" + m;
+            aq.id(id).text(h + ":" + m);
+        } catch (Exception ex) {
+            send_error(ex);
+        }
     }
 
     private void time_set() {
-        Calendar c = Calendar.getInstance();
-        int hours = c.get(Calendar.HOUR_OF_DAY);
-        int minutes = 0;
-        if (c.get(Calendar.MINUTE) < 30) minutes = 0;
-        else minutes = 30;
+        try {
+            Calendar c = Calendar.getInstance();
+            int hours = c.get(Calendar.HOUR_OF_DAY);
+            int minutes = 0;
+            if (c.get(Calendar.MINUTE) < 30) minutes = 0;
+            else minutes = 30;
 
-        int hours_start = hours;
-        int minutes_start = 0;
+            int hours_start = hours;
+            int minutes_start = 0;
 
-        if (minutes == 30) {
-            hours_start -= 1;
-            minutes_start = 0;
-        } else {
-            hours_start -= 2;
-            minutes_start = 30;
+            if (minutes == 30) {
+                hours_start -= 1;
+                minutes_start = 0;
+            } else {
+                hours_start -= 2;
+                minutes_start = 30;
+            }
+
+            time_set_show(R.id.time_start, hours_start, minutes_start);
+            time_set_show(R.id.time_end, hours, minutes);
+        } catch (Exception ex) {
+            send_error(ex);
         }
-
-        time_set_show(R.id.time_start, hours_start, minutes_start);
-        time_set_show(R.id.time_end, hours, minutes);
     }
 
     private void date_set(Calendar calendar) {
-        if (calendar == null) calendar = Calendar.getInstance();
-        String m = String.valueOf(calendar.get(Calendar.MONTH));
-        if (calendar.get(Calendar.MONTH) < 10) m = "0" + m;
-        String d = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
-        if (calendar.get(Calendar.DAY_OF_MONTH) < 10) d = "0" + d;
-        aq.id(R.id.date).text(calendar.get(Calendar.YEAR) + "-" + m + "-" + d);
+        try {
+            if (calendar == null) calendar = Calendar.getInstance();
+            String m = String.valueOf(calendar.get(Calendar.MONTH));
+            if (calendar.get(Calendar.MONTH) < 10) m = "0" + m;
+            String d = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+            if (calendar.get(Calendar.DAY_OF_MONTH) < 10) d = "0" + d;
+            aq.id(R.id.date).text(calendar.get(Calendar.YEAR) + "-" + m + "-" + d);
+        } catch (Exception ex) {
+            send_error(ex);
+        }
     }
 
     public void settings_click(View v) {
@@ -491,63 +545,74 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
     }
 
     public void picker_click(View v) {
-        int id = v.getId();
-        switch (id) {
-            case R.id.button_up1:
-                set_picket_textbox(R.id.journals, 1);
-                break;
-            case R.id.button_up2:
-                set_picket_textbox(R.id.broshure, 1);
-                break;
-            case R.id.button_up3:
-                set_picket_textbox(R.id.books, 1);
-                break;
-            case R.id.button_up4:
-                set_picket_textbox(R.id.dvd, 1);
-                break;
-            case R.id.button_up5:
-                set_picket_textbox(R.id.talks, 1);
-                break;
-            case R.id.button_up6:
-                set_picket_textbox(R.id.repeated_visits, 1);
-                break;
-            case R.id.button_up7:
-                set_picket_textbox(R.id.s43, 1);
-                break;
-            case R.id.button_down1:
-                set_picket_textbox(R.id.journals, -1);
-                break;
-            case R.id.button_down2:
-                set_picket_textbox(R.id.broshure, -1);
-                break;
-            case R.id.button_down3:
-                set_picket_textbox(R.id.books, -1);
-                break;
-            case R.id.button_down4:
-                set_picket_textbox(R.id.dvd, -1);
-                break;
-            case R.id.button_down5:
-                set_picket_textbox(R.id.talks, -1);
-                break;
-            case R.id.button_down6:
-                set_picket_textbox(R.id.repeated_visits, -1);
-                break;
-            case R.id.button_down7:
-                set_picket_textbox(R.id.s43, -1);
-                break;
+        try {
+            int id = v.getId();
+            switch (id) {
+                case R.id.button_up1:
+                    set_picket_textbox(R.id.journals, 1);
+                    break;
+                case R.id.button_up2:
+                    set_picket_textbox(R.id.broshure, 1);
+                    break;
+                case R.id.button_up3:
+                    set_picket_textbox(R.id.books, 1);
+                    break;
+                case R.id.button_up4:
+                    set_picket_textbox(R.id.dvd, 1);
+                    break;
+                case R.id.button_up5:
+                    set_picket_textbox(R.id.talks, 1);
+                    break;
+                case R.id.button_up6:
+                    set_picket_textbox(R.id.repeated_visits, 1);
+                    break;
+                case R.id.button_up7:
+                    set_picket_textbox(R.id.s43, 1);
+                    break;
+                case R.id.button_down1:
+                    set_picket_textbox(R.id.journals, -1);
+                    break;
+                case R.id.button_down2:
+                    set_picket_textbox(R.id.broshure, -1);
+                    break;
+                case R.id.button_down3:
+                    set_picket_textbox(R.id.books, -1);
+                    break;
+                case R.id.button_down4:
+                    set_picket_textbox(R.id.dvd, -1);
+                    break;
+                case R.id.button_down5:
+                    set_picket_textbox(R.id.talks, -1);
+                    break;
+                case R.id.button_down6:
+                    set_picket_textbox(R.id.repeated_visits, -1);
+                    break;
+                case R.id.button_down7:
+                    set_picket_textbox(R.id.s43, -1);
+                    break;
+            }
+        } catch (Exception ex) {
+            send_error(ex);
         }
-
     }
 
     private void set_picket_textbox(int tv, int plus) {
-        int value = Integer.parseInt(aq.id(tv).getText().toString()) + plus;
-        if (value < 0) value = 0;
-        aq.id(tv).text(String.valueOf(value));
+        try {
+            int value = Integer.parseInt(aq.id(tv).getText().toString()) + plus;
+            if (value < 0) value = 0;
+            aq.id(tv).text(String.valueOf(value));
+        } catch (Exception ex) {
+            send_error(ex);
+        }
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         set_default();
-        //GoogleAnalytics.getInstance(getApplicationContext()).setAppOptOut(!prefs.getBoolean("analytics", true));
+    }
+
+    private void send_error(Exception ex) {
+        Log.e("EERROORR", "main", ex);
+        Mint.logException(ex);
     }
 }
