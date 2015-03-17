@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
@@ -50,6 +51,7 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
                 case Activity.RESULT_OK:
                     Toast.makeText(main.this, getString(R.string.sms_send),
                             Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
                     write_statistic();
                     break;
                 case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
@@ -76,6 +78,7 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
     private SharedPreferences prefs;
     private Cursor cursor;
     private int error_resend = 0;
+    private ProgressDialog progressDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,6 +154,7 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
     private void resend() {
         try {
             if (error_resend > 4) {
+                progressDialog.dismiss();
                 AlertDialog.Builder dialog = show_dialog(getString(R.string.sms_send), getString(R.string.error_generic_failture));
                 dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -332,7 +336,7 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
                             + "\r\ns:" + aq.id(R.id.s43).getText().toString();
                     break;
                 case 1:
-                    message =  getString(R.string.app_name_shot) + " " + cursor.getString(cursor.getColumnIndex("name"))
+                    message = getString(R.string.app_name_shot) + " " + cursor.getString(cursor.getColumnIndex("name"))
                             + "\n\r\n" + aq.id(R.id.user).getText().toString()
                             + "\n\r\n" + aq.id(R.id.date).getText().toString()
                             + " " + aq.id(R.id.time_start).getText().toString()
@@ -419,12 +423,17 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
                 dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         smsManager.sendMultipartTextMessage(sms, null, mArray, sentArrayIntents, null);
+                        show_progress_dialog();
                     }
                 }).setNegativeButton(android.R.string.no, null).show();
             } else Toast.makeText(this, getString(R.string.sms_vrong), Toast.LENGTH_LONG).show();
         } catch (Exception ex) {
             send_error(ex);
         }
+    }
+
+    private void show_progress_dialog() {
+        progressDialog = ProgressDialog.show(this, getString(R.string.sms_send), getString(R.string.sms_sending));
     }
 
     private void send_mail(String message) {
