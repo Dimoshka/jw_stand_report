@@ -35,8 +35,10 @@
     <string name="first_run_text">"Это ваш первый запуск программы. Пожалуйста сначало настройте программу!"</string>
 
     <string name="sms_send">"СМС отправлено!"</string>
-    <string name="unknown_problems">"Неизвестная ошибка"</string>
-    <string name="modul_is_down">"Ваш телефон выключен!"</string>
+    <string name="error_generic_failture">"Неизвестная ошибка! Попробуйте повторно через некоторое время."</string>
+    <string name="error_modul_is_down">"Ваш телефон выключен!"</string>
+    <string name="error_no_cervice">"Связь не доступна!"</string>
+    <string name="error_null_pdu">"Неверный текст сообщения!"</string>
 
     <string name="vrong">"Вы заполнили не все данные!"</string>
     <string name="sms_vrong">"Не корректный номер телефона"</string>
@@ -62,7 +64,7 @@
     <string name="save">"Сохранить"</string>
 
     <string name="test_time">"00:00"</string>
-    <string name="test_date">"0000-00-00"</string>
+    <string name="test_date">"0000–00–00"</string>
     <string name="test_phone">"380931234567"</string>
     <string name="test_ziro">"0"</string>
     <string name="test_email">"name@email.com"</string>

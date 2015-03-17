@@ -15,14 +15,7 @@ public class AnalyticsSampleApp extends Application {
 
     private static final String PROPERTY_ID = "UA-37534534-8";
     public static int GENERAL_TRACKER = 0;
-
-    public enum TrackerName {
-        APP_TRACKER,
-        GLOBAL_TRACKER,
-        ECOMMERCE_TRACKER,
-    }
-
-    HashMap<TrackerName, Tracker> mTrackers = new HashMap<TrackerName, Tracker>();
+    private final HashMap<TrackerName, Tracker> mTrackers = new HashMap<>();
 
     public AnalyticsSampleApp() {
         super();
@@ -41,5 +34,11 @@ public class AnalyticsSampleApp extends Application {
             mTrackers.put(trackerId, t);
         }
         return mTrackers.get(trackerId);
+    }
+
+    public enum TrackerName {
+        APP_TRACKER,
+        GLOBAL_TRACKER,
+        ECOMMERCE_TRACKER,
     }
 }

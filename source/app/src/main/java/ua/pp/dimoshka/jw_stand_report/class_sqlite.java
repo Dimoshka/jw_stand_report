@@ -5,13 +5,13 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
-public class class_sqlite extends SQLiteAssetHelper {
+class class_sqlite extends SQLiteAssetHelper {
 
     public class_sqlite(Context context) {
         super(context, context.getString(R.string.db_name), null, Integer
-                .valueOf(context.getString(R.string.db_version)).intValue());
+                .valueOf(context.getString(R.string.db_version)));
         setForcedUpgrade(Integer
-                .valueOf(context.getString(R.string.db_version)).intValue());
+                .valueOf(context.getString(R.string.db_version)));
     }
 
     public SQLiteDatabase openDataBase() {

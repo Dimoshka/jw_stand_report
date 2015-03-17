@@ -17,7 +17,8 @@ import com.splunk.mint.Mint;
 
 public class preferences extends ActionBarActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static SQLiteDatabase database = null;
+    private SQLiteDatabase database = null;
+    private class_sqlite dbOpenHelper = null;
     private AQuery aq;
     private SharedPreferences prefs;
     private Cursor cursor;
@@ -35,7 +36,7 @@ public class preferences extends ActionBarActivity implements SharedPreferences.
         }
 
         setContentView(R.layout.settings);
-        class_sqlite dbOpenHelper = new class_sqlite(this);
+        dbOpenHelper = new class_sqlite(this);
         database = dbOpenHelper.openDataBase();
         aq = new AQuery(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -132,5 +133,13 @@ public class preferences extends ActionBarActivity implements SharedPreferences.
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         //set_default();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (cursor != null) cursor.close();
+        database.close();
+        dbOpenHelper.close();
     }
 }

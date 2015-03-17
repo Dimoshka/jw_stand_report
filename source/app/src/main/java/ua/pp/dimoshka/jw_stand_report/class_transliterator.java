@@ -6,9 +6,9 @@ import java.util.Map;
 /**
  * Created by dimoshka on 26.10.14.
  */
-public class class_transliterator {
+class class_transliterator {
 
-    private static final Map<Character, String> charMap = new HashMap<Character, String>();
+    private static final Map<Character, String> charMap = new HashMap<>();
 
     static {
         charMap.put('А', "A");

@@ -1,10 +1,13 @@
 package ua.pp.dimoshka.jw_stand_report;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -38,13 +41,41 @@ import java.util.regex.Pattern;
 
 public class main extends ActionBarActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private final static String SENT = "SENT_SMS_ACTION", DELIVERED = "DELIVERED_SMS_ACTION", ISNULL = "Entered, not all data";
-    private static SQLiteDatabase database = null;
+    private final static String SENT = "SENT_SMS_ACTION";
+    private final class_transliterator translite = new class_transliterator();
+    private final BroadcastReceiver br_receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context arg0, Intent arg1) {
+            switch (getResultCode()) {
+                case Activity.RESULT_OK:
+                    Toast.makeText(main.this, getString(R.string.sms_send),
+                            Toast.LENGTH_SHORT).show();
+                    write_statistic();
+                    break;
+                case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                    resend();
+                    break;
+                case SmsManager.RESULT_ERROR_NO_SERVICE:
+                    AlertDialog.Builder dialog1 = show_dialog(getString(R.string.sms_send), getString(R.string.error_no_cervice));
+                    dialog1.setPositiveButton(android.R.string.ok, null).show();
+                    break;
+                case SmsManager.RESULT_ERROR_NULL_PDU:
+                    AlertDialog.Builder dialog2 = show_dialog(getString(R.string.sms_send), getString(R.string.error_null_pdu));
+                    dialog2.setPositiveButton(android.R.string.ok, null).show();
+                    break;
+                case SmsManager.RESULT_ERROR_RADIO_OFF:
+                    AlertDialog.Builder dialog3 = show_dialog(getString(R.string.sms_send), getString(R.string.error_modul_is_down));
+                    dialog3.setPositiveButton(android.R.string.ok, null).show();
+                    break;
+            }
+        }
+    };
+    private SQLiteDatabase database = null;
+    private class_sqlite dbOpenHelper = null;
     private AQuery aq;
     private SharedPreferences prefs;
     private Cursor cursor;
-    private class_transliterator translite = new class_transliterator();
-    private class_send_sms sendSms = new class_send_sms();
+    private int error_resend = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +90,7 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
             }
 
             setContentView(R.layout.main);
-            class_sqlite dbOpenHelper = new class_sqlite(this);
+            dbOpenHelper = new class_sqlite(this);
             database = dbOpenHelper.openDataBase();
             aq = new AQuery(this);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -95,29 +126,43 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
             SimpleCursorAdapter loc_adapter = new SimpleCursorAdapter(
                     this, android.R.layout.simple_spinner_dropdown_item, cursor, new String[]{"name"}, new int[]{android.R.id.text1}, 0);
             aq.id(R.id.location).adapter(loc_adapter);
-
             set_default();
 
             if (prefs.getBoolean("first_run", true)) {
-                new AlertDialog.Builder(this)
-                        .setTitle(getString(R.string.first_run_title))
-                        .setMessage(getString(R.string.first_run_text))
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                start_settings();
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, null).show();
+                AlertDialog.Builder dialog = show_dialog(getString(R.string.first_run_title), getString(R.string.first_run_text));
+                dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        start_settings();
+                    }
+                }).setNegativeButton(android.R.string.no, null).show();
                 prefs.edit().putBoolean("first_run", false).apply();
             }
 
 
             prefs.registerOnSharedPreferenceChangeListener(this);
-            registerReceiver(sendSms, new IntentFilter(SENT));
+            registerReceiver(br_receiver, new IntentFilter(SENT));
 
             clear();
         } catch (Exception ex) {
             send_error(ex);
+        }
+    }
+
+    private void resend() {
+        try {
+            if (error_resend > 4) {
+                AlertDialog.Builder dialog = show_dialog(getString(R.string.sms_send), getString(R.string.error_generic_failture));
+                dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        start_settings();
+                    }
+                }).show();
+            } else {
+                send_sms(get_message(0));
+                error_resend++;
+            }
+        } catch (Exception e) {
+            send_error(e);
         }
     }
 
@@ -183,7 +228,10 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(sendSms);
+        unregisterReceiver(br_receiver);
+        if (cursor != null) cursor.close();
+        database.close();
+        dbOpenHelper.close();
     }
 
     private void start_settings() {
@@ -210,10 +258,10 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
         try {
             String[] word = text.split(" ");
             text = "";
-            for (int i = 0; i < word.length; i++) {
+            for (String aWord : word) {
                 if (text.length() > 0) text += " ";
-                if (word[i].length() > lenth) text += word[i].substring(0, lenth);
-                else text += word[i];
+                if (aWord.length() > lenth) text += aWord.substring(0, lenth);
+                else text += aWord;
             }
         } catch (Exception ex) {
             send_error(ex);
@@ -234,21 +282,17 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
             if (user.length() > 4 && !date.equals(getString(R.string.test_date)) && !time_start.equals(getString(R.string.test_time)) && !time_end.equals(getString(R.string.test_time))) {
                 int send_type = prefs.getInt("send_type", 2);
                 if (send_type == 2) {
-                    new AlertDialog.Builder(this)
-                            .setTitle(getString(R.string.send_type))
-                            .setPositiveButton(R.string.type_sms, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    send_sms(get_message(0));
-                                    return;
-                                }
-                            })
-                            .setNegativeButton(R.string.type_email, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    send_mail(get_message(1));
-                                    return;
-                                }
-                            })
-                            .show();
+
+                    AlertDialog.Builder dialog = show_dialog(getString(R.string.app_name), getString(R.string.send_type));
+                    dialog.setPositiveButton(R.string.type_sms, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            send_sms(get_message(0));
+                        }
+                    }).setNegativeButton(R.string.type_email, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            send_mail(get_message(1));
+                        }
+                    }).show();
                 }
 
                 switch (send_type) {
@@ -312,49 +356,48 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
 
     private void write_statistic() {
         try {
-            new AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.statistic))
-                    .setMessage(getString(R.string.statistic_write))
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            cursor.moveToPosition(aq.id(R.id.location).getSelectedItemPosition());
-                            int id_stand = cursor.getInt(cursor.getColumnIndex("_id"));
-                            String user = aq.id(R.id.user).getText().toString();
-                            String date = aq.id(R.id.date).getText().toString();
-                            String time_start = aq.id(R.id.time_start).getText().toString();
-                            String time_end = aq.id(R.id.time_end).getText().toString();
 
-                            int journal = Integer.parseInt(aq.id(R.id.journals).getText().toString());
-                            int broshure = Integer.parseInt(aq.id(R.id.broshure).getText().toString());
-                            int book = Integer.parseInt(aq.id(R.id.books).getText().toString());
-                            int dvd = Integer.parseInt(aq.id(R.id.dvd).getText().toString());
-                            int talk = Integer.parseInt(aq.id(R.id.talks).getText().toString());
-                            int repeated_visit = Integer.parseInt(aq.id(R.id.repeated_visits).getText().toString());
-                            int s43 = Integer.parseInt(aq.id(R.id.s43).getText().toString());
+            AlertDialog.Builder dialog = show_dialog(getString(R.string.statistic), getString(R.string.statistic_write));
+            dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    cursor.moveToPosition(aq.id(R.id.location).getSelectedItemPosition());
+                    int id_stand = cursor.getInt(cursor.getColumnIndex("_id"));
+                    String user = aq.id(R.id.user).getText().toString();
+                    String date = aq.id(R.id.date).getText().toString();
+                    String time_start = aq.id(R.id.time_start).getText().toString();
+                    String time_end = aq.id(R.id.time_end).getText().toString();
 
-                            ContentValues init = new ContentValues();
-                            init.put("id_stand", id_stand);
-                            init.put("user", user);
-                            init.put("date", date);
-                            init.put("time_start", time_start);
-                            init.put("time_end", time_end);
-                            init.put("journal", journal);
-                            init.put("broshure", broshure);
-                            init.put("book", book);
-                            init.put("dvd", dvd);
-                            init.put("repeated_visit", repeated_visit);
-                            init.put("talk", talk);
-                            init.put("s_blank", s43);
-                            database.insert("statistic", null, init);
-                            clear();
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            clear();
-                        }
-                    })
-                    .show();
+                    int journal = Integer.parseInt(aq.id(R.id.journals).getText().toString());
+                    int broshure = Integer.parseInt(aq.id(R.id.broshure).getText().toString());
+                    int book = Integer.parseInt(aq.id(R.id.books).getText().toString());
+                    int dvd = Integer.parseInt(aq.id(R.id.dvd).getText().toString());
+                    int talk = Integer.parseInt(aq.id(R.id.talks).getText().toString());
+                    int repeated_visit = Integer.parseInt(aq.id(R.id.repeated_visits).getText().toString());
+                    int s43 = Integer.parseInt(aq.id(R.id.s43).getText().toString());
+
+                    ContentValues init = new ContentValues();
+                    init.put("id_stand", id_stand);
+                    init.put("user", user);
+                    init.put("date", date);
+                    init.put("time_start", time_start);
+                    init.put("time_end", time_end);
+                    init.put("journal", journal);
+                    init.put("broshure", broshure);
+                    init.put("book", book);
+                    init.put("dvd", dvd);
+                    init.put("repeated_visit", repeated_visit);
+                    init.put("talk", talk);
+                    init.put("s_blank", s43);
+                    database.insert("statistic", null, init);
+                    clear();
+                }
+            }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    clear();
+                }
+            }).show();
+
+
         } catch (Exception ex) {
             send_error(ex);
         }
@@ -363,27 +406,21 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
     private void send_sms(String message) {
         try {
             final String sms = prefs.getString("sms", "").replace("(", "").replace(")", "").replace(" ", "").replace("-", "").replace("+", "");
-            if (sms.length() > 9) {
-
+            if (sms.length() > 9 && sms.length() < 13) {
                 PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
                 final SmsManager smsManager = SmsManager.getDefault();
                 final ArrayList<String> mArray = smsManager.divideMessage(message);
-                final ArrayList<PendingIntent> sentArrayIntents = new ArrayList<PendingIntent>();
+                final ArrayList<PendingIntent> sentArrayIntents = new ArrayList<>();
                 for (int i = 0; i < mArray.size(); i++) {
                     sentArrayIntents.add(sentPI);
-                    Log.e("22", mArray.get(i));
+                    Log.d("22", mArray.get(i));
                 }
-                new AlertDialog.Builder(this)
-                        .setTitle(getString(R.string.sms_sending))
-                        .setMessage(getString(R.string.sms_text) + "\r\n\r\n" + message + "\r\n\r\n" + getString(R.string.sms_count) + " " + mArray.size())
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                smsManager.sendMultipartTextMessage(sms, null, mArray, sentArrayIntents, null);
-                                write_statistic();
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, null)
-                        .show();
+                AlertDialog.Builder dialog = show_dialog(getString(R.string.sms_sending), getString(R.string.sms_text) + "\r\n\r\n" + message + "\r\n\r\n" + getString(R.string.sms_count) + " " + mArray.size());
+                dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        smsManager.sendMultipartTextMessage(sms, null, mArray, sentArrayIntents, null);
+                    }
+                }).setNegativeButton(android.R.string.no, null).show();
             } else Toast.makeText(this, getString(R.string.sms_vrong), Toast.LENGTH_LONG).show();
         } catch (Exception ex) {
             send_error(ex);
@@ -408,7 +445,7 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
     }
 
 
-    public boolean email_validate(String email) {
+    boolean email_validate(String email) {
         Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
         Matcher matcher = pattern.matcher(email);
@@ -604,6 +641,12 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
         } catch (Exception ex) {
             send_error(ex);
         }
+    }
+
+    private AlertDialog.Builder show_dialog(String title, String text) {
+        return new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(text);
     }
 
     @Override
