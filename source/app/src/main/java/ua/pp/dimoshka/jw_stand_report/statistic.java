@@ -35,7 +35,7 @@ public class statistic extends ActionBarActivity {
                 t.setScreenName("statistic");
                 t.send(new HitBuilders.AppViewBuilder().build());
             }
-            setContentView(R.layout.main);
+            setContentView(R.layout.statistic);
             dbOpenHelper = new class_sqlite(this);
             database = dbOpenHelper.openDataBase();
             aq = new AQuery(this);
