@@ -239,7 +239,7 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
     }
 
     private void start_settings() {
-        startActivity(new Intent(this, preferences.class));
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 
     private void set_default() {

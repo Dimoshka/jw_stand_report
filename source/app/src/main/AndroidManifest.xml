@@ -30,7 +30,7 @@
         </activity>
 
         <activity
-            android:name=".preferences"
+            android:name=".SettingsActivity"
             android:label="@string/settings"
             android:windowSoftInputMode="stateHidden" />
 

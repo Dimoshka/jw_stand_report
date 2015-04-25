@@ -81,5 +81,7 @@
         <item>3</item>
     </integer-array>
 
+    <string name="PhoneNumber_Format">Номер телефона (%s)</string>
+    <string name="EmailAddress_Format">Email (%s)</string>
 
 </resources>
