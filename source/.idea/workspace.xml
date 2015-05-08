@@ -27,10 +27,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: ua.pp.dimoshka.jw_stand_report" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6c813994-5f47-4e4f-a6c0-5dffef124a3b" name="Default" comment="Sms send fix">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/source.iml" afterPath="$PROJECT_DIR$/source.iml" />
+    <list default="true" id="6c813994-5f47-4e4f-a6c0-5dffef124a3b" name="Default" comment="Добавление адреса отправки отчета на каждый стенд">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="source.iws" />
@@ -78,8 +75,8 @@
       <file leaf-file-name="main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ua/pp/dimoshka/jw_stand_report/main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.03272727">
-              <caret line="507" column="30" selection-start-line="507" selection-start-column="30" selection-end-line="507" selection-end-column="30" />
+            <state vertical-scroll-proportion="1.4774567">
+              <caret line="513" column="22" selection-start-line="513" selection-start-column="22" selection-end-line="513" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -142,6 +139,9 @@
         <entry key="$PROJECT_DIR$/.." value="master" />
       </map>
     </option>
+    <push-targets>
+      <push-target-info repo="$PROJECT_DIR$/.." source="mmx_smallFixes" target-remote="dimoshka" target-branch="mmx_smallFixes" />
+    </push-targets>
   </component>
   <component name="GradleLocalSettings">
     <option name="tasksExpandState">
@@ -1427,7 +1427,13 @@
       <option name="project" value="LOCAL" />
       <updated>1430004356538</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Добавление адреса отправки отчета на каждый стенд">
+      <created>1431093557368</created>
+      <option name="number" value="00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1431093557368</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1445,13 +1451,13 @@
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32847533" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.353139" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.353139" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32995737" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20500532" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20500532" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32735425" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32914287" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1486,7 +1492,8 @@
     <MESSAGE value="progressdialog" />
     <MESSAGE value="Phone number and email address: separate setting" />
     <MESSAGE value="Sms send fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="Sms send fix" />
+    <MESSAGE value="Добавление адреса отправки отчета на каждый стенд" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавление адреса отправки отчета на каждый стенд" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1931,8 +1938,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ua/pp/dimoshka/jw_stand_report/main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.03272727">
-          <caret line="507" column="30" selection-start-line="507" selection-start-column="30" selection-end-line="507" selection-end-column="30" />
+        <state vertical-scroll-proportion="1.4774567">
+          <caret line="513" column="22" selection-start-line="513" selection-start-column="22" selection-end-line="513" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
