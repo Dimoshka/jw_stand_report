@@ -7,7 +7,7 @@ repositories {
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "21.1.2"
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "ua.pp.dimoshka.jw_stand_report"
@@ -25,8 +25,8 @@ android {
         debug {
             keyAlias 'debug'
             keyPassword '1234567890'
-            storeFile file('H:/Workspace/android/keys/debug.jks')
-            //storeFile file('/windows/Workspace/android/keys/debug.jks')
+            //storeFile file('H:/Workspace/android/keys/debug.jks')
+            storeFile file('/windows/Workspace/android/keys/debug.jks')
             storePassword '1234567890'
         }
     }
