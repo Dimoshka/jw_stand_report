@@ -34,7 +34,8 @@
     <string name="first_run_title">"Первый запуск программы"</string>
     <string name="first_run_text">"Это ваш первый запуск программы. Пожалуйста сначало настройте программу!"</string>
 
-    <string name="sms_send">"СМС отправлено!"</string>
+    <string name="sms_send">"Отправка СМС"</string>
+    <string name="sms_send_ok">"СМС отправлено!"</string>
     <string name="error_generic_failture">"Неизвестная ошибка! Попробуйте повторно через некоторое время."</string>
     <string name="error_modul_is_down">"Ваш телефон выключен!"</string>
     <string name="error_no_cervice">"Связь не доступна!"</string>

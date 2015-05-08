@@ -58,9 +58,9 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
         public void onReceive(Context arg0, Intent arg1) {
             switch (getResultCode()) {
                 case Activity.RESULT_OK:
-                    Toast.makeText(main.this, getString(R.string.sms_send),
-                            Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
+                    Toast.makeText(main.this, getString(R.string.sms_send_ok),
+                            Toast.LENGTH_SHORT).show();
                     write_statistic();
                     break;
                 case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
@@ -220,14 +220,10 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
 
     private void resend() {
         try {
-            if (error_resend > 4) {
+            if (error_resend > 3) {
                 progressDialog.dismiss();
                 AlertDialog.Builder dialog = show_dialog(getString(R.string.sms_send), getString(R.string.error_generic_failture));
-                dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        start_settings();
-                    }
-                }).show();
+                dialog.setPositiveButton(android.R.string.ok, null).show();
             } else {
                 send_sms(get_message(0));
                 error_resend++;
@@ -287,7 +283,7 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
                 start_settings();
                 break;
             case R.id.statistic:
-
+                startActivity(new Intent(this, statistic.class));
                 break;
             default:
                 break;

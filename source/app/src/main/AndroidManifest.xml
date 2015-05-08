@@ -30,7 +30,16 @@
         </activity>
 
         <activity
+<<<<<<< HEAD
             android:name=".SettingsActivity"
+=======
+            android:name=".statistic"
+            android:label="@string/statistic"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".preferences"
+>>>>>>> 20785f7d126a9dff179d17029232a46f757e3cb6
             android:label="@string/settings"
             android:windowSoftInputMode="stateHidden" />
 

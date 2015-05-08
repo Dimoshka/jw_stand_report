@@ -2,52 +2,52 @@
 <items version="2">
 
     <item
-        jar="/home/dimoshka/.gradle/caches/modules-2/files-2.1/com.splunk.mint/mint/4.0.8/19452a9f6424ddae60c51f97e93cb9bec3dddfd2/mint-4.0.8.jar"
-        jumboMode="false" revision="21.1.2" sha1="19452a9f6424ddae60c51f97e93cb9bec3dddfd2">
-        <dex
-            dex="/windows/Workspace/android/jw_stand_report/source/app/build/intermediates/pre-dexed/debug/mint-4.0.8-35e30d2c1882bcfe704f944b99e19d69ed1a268a.jar" />
-    </item>
-    <item
-        jar="/home/dimoshka/.gradle/caches/modules-2/files-2.1/com.googlecode.android-query/android-query/0.25.9/fff82e4e1e56b60d6eb1d5487dbd3d3b526b635f/android-query-0.25.9.jar"
-        jumboMode="false" revision="21.1.2" sha1="fff82e4e1e56b60d6eb1d5487dbd3d3b526b635f">
-        <dex
-            dex="/windows/Workspace/android/jw_stand_report/source/app/build/intermediates/pre-dexed/debug/android-query-0.25.9-5603b34dbe41d2a3cf6cd5ed6e02b36cf80be938.jar" />
-    </item>
-    <item
-        jar="/windows/Workspace/android/jw_stand_report/source/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/libs/internal_impl-22.0.0.jar"
-        jumboMode="false" revision="21.1.2" sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
-        <dex
-            dex="/windows/Workspace/android/jw_stand_report/source/app/build/intermediates/pre-dexed/debug/internal_impl-22.0.0-4202760e721bf9cfa010a9176d7b1dbe4ba0e34c.jar" />
-    </item>
-    <item
-        jar="/windows/Workspace/android/jw_stand_report/source/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/classes.jar"
-        jumboMode="false" revision="21.1.2" sha1="d84409890828e07d344a3b9b1da545dba9897b51">
-        <dex
-            dex="/windows/Workspace/android/jw_stand_report/source/app/build/intermediates/pre-dexed/debug/classes-f97ab08ed0b4e8df4d6704388e09510af13c9f6c.jar" />
-    </item>
-    <item
-        jar="/home/dimoshka/.gradle/caches/modules-2/files-2.1/com.readystatesoftware.sqliteasset/sqliteassethelper/2.0.1/d5f02e4a4d65ec0fbb339f2e4228723d1540bb9f/sqliteassethelper-2.0.1.jar"
-        jumboMode="false" revision="21.1.2" sha1="d5f02e4a4d65ec0fbb339f2e4228723d1540bb9f">
-        <dex
-            dex="/windows/Workspace/android/jw_stand_report/source/app/build/intermediates/pre-dexed/debug/sqliteassethelper-2.0.1-787fe0c76560ac31b2f5c6fbb952fb92a099fad3.jar" />
-    </item>
-    <item
-        jar="/home/dimoshka/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/22.0.0/support-annotations-22.0.0.jar"
-        jumboMode="false" revision="21.1.2" sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
-        <dex
-            dex="/windows/Workspace/android/jw_stand_report/source/app/build/intermediates/pre-dexed/debug/support-annotations-22.0.0-fc281ab52ad2b980e9642d863cf6cd60d9ea8bdd.jar" />
-    </item>
-    <item
-        jar="/windows/Workspace/android/jw_stand_report/source/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/classes.jar"
-        jumboMode="false" revision="21.1.2" sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
-        <dex
-            dex="/windows/Workspace/android/jw_stand_report/source/app/build/intermediates/pre-dexed/debug/classes-a9bca2c34414bf40afade4187f089abc2343ed1e.jar" />
-    </item>
-    <item
-        jar="/windows/Workspace/android/jw_stand_report/source/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.5.87/classes.jar"
+        jar="H:\Workspace\android\jw_stand_report\source\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\6.5.87\classes.jar"
         jumboMode="false" revision="21.1.2" sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
         <dex
-            dex="/windows/Workspace/android/jw_stand_report/source/app/build/intermediates/pre-dexed/debug/classes-5346dd6b9c0d8e8b6ee316d5157ce21091fef79d.jar" />
+            dex="H:\Workspace\android\jw_stand_report\source\app\build\intermediates\pre-dexed\debug\classes-811fa618efd82a788032f1febc4efa4cbed8233f.jar" />
+    </item>
+    <item
+        jar="C:\Users\designers\.gradle\caches\modules-2\files-2.1\com.googlecode.android-query\android-query\0.25.9\fff82e4e1e56b60d6eb1d5487dbd3d3b526b635f\android-query-0.25.9.jar"
+        jumboMode="false" revision="21.1.2" sha1="fff82e4e1e56b60d6eb1d5487dbd3d3b526b635f">
+        <dex
+            dex="H:\Workspace\android\jw_stand_report\source\app\build\intermediates\pre-dexed\debug\android-query-0.25.9-fd7eb8fc9177c3f858a902699734f09766f11b6d.jar" />
+    </item>
+    <item
+        jar="C:\Users\designers\.gradle\caches\modules-2\files-2.1\com.splunk.mint\mint\4.0.8\19452a9f6424ddae60c51f97e93cb9bec3dddfd2\mint-4.0.8.jar"
+        jumboMode="false" revision="21.1.2" sha1="19452a9f6424ddae60c51f97e93cb9bec3dddfd2">
+        <dex
+            dex="H:\Workspace\android\jw_stand_report\source\app\build\intermediates\pre-dexed\debug\mint-4.0.8-d30c74db211579f2afd6e31f67e59696998d0499.jar" />
+    </item>
+    <item
+        jar="H:\Workspace\android\jw_stand_report\source\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.0.0\classes.jar"
+        jumboMode="false" revision="21.1.2" sha1="d84409890828e07d344a3b9b1da545dba9897b51">
+        <dex
+            dex="H:\Workspace\android\jw_stand_report\source\app\build\intermediates\pre-dexed\debug\classes-b3f85ef9d8e05ac142236a698424340e3debfb7e.jar" />
+    </item>
+    <item
+        jar="H:\Workspace\android\jw_stand_report\source\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\classes.jar"
+        jumboMode="false" revision="21.1.2" sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
+        <dex
+            dex="H:\Workspace\android\jw_stand_report\source\app\build\intermediates\pre-dexed\debug\classes-dcc8f033b5dcb7a004ea746f047ac4009d083d8f.jar" />
+    </item>
+    <item
+        jar="C:\Users\designers\.gradle\caches\modules-2\files-2.1\com.readystatesoftware.sqliteasset\sqliteassethelper\2.0.1\d5f02e4a4d65ec0fbb339f2e4228723d1540bb9f\sqliteassethelper-2.0.1.jar"
+        jumboMode="false" revision="21.1.2" sha1="d5f02e4a4d65ec0fbb339f2e4228723d1540bb9f">
+        <dex
+            dex="H:\Workspace\android\jw_stand_report\source\app\build\intermediates\pre-dexed\debug\sqliteassethelper-2.0.1-ecac93fe2c788101a2ea034ffc739e9d8e0237f7.jar" />
+    </item>
+    <item
+        jar="H:\Workspace\android\jw_stand_report\source\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\libs\internal_impl-22.0.0.jar"
+        jumboMode="false" revision="21.1.2" sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
+        <dex
+            dex="H:\Workspace\android\jw_stand_report\source\app\build\intermediates\pre-dexed\debug\internal_impl-22.0.0-8ea2cdf1e448bbc08cec4a2c44d59cf4a88eea49.jar" />
+    </item>
+    <item
+        jar="H:\Soft\sdk\extras\android\m2repository\com\android\support\support-annotations\22.0.0\support-annotations-22.0.0.jar"
+        jumboMode="false" revision="21.1.2" sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
+        <dex
+            dex="H:\Workspace\android\jw_stand_report\source\app\build\intermediates\pre-dexed\debug\support-annotations-22.0.0-60019212118887ece0499776e7d0532988683fcb.jar" />
     </item>
 
 </items>
