@@ -25,7 +25,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -36,8 +41,12 @@ import com.splunk.mint.Mint;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import ua.pp.dimoshka.jw_stand_report.managers.ISettingsManager;
+import ua.pp.dimoshka.jw_stand_report.managers.SettingsManager;
 
 
 public class main extends ActionBarActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -80,6 +89,48 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
     private int error_resend = 0;
     private ProgressDialog progressDialog = null;
 
+    private ISettingsManager settingsManager;
+
+    private Spinner location_spinner;
+
+    private TextView phoneNumberCaption_textView;
+    private EditText phoneNumber_editText;
+
+    private TextView emailAddressCaption_textView;
+    private EditText emailAddress_editText;
+
+    private HashMap<Integer, String> savedPhoneNumbers;
+    private HashMap<Integer, String> savedEmailAddresses;
+    private AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+            if (adapterView.getId() == R.id.location) {
+                Adapter adapter = adapterView.getAdapter();
+                Cursor cursor = (Cursor) adapter.getItem(position);
+
+                int locationId = cursor.getInt(cursor.getColumnIndex("_id"));
+                String locationName = cursor.getString(cursor.getColumnIndex("name"));
+
+                String phoneNumberCaption = getString(R.string.PhoneNumber_Format, locationName);
+                phoneNumberCaption_textView.setText(phoneNumberCaption);
+
+                String emailAddressCaption = getString(R.string.EmailAddress_Format, locationName);
+                emailAddressCaption_textView.setText(emailAddressCaption);
+
+                String phoneNumber = savedPhoneNumbers.get(locationId);
+                phoneNumber_editText.setText(phoneNumber);
+
+                String emailAddress = savedEmailAddresses.get(locationId);
+                emailAddress_editText.setText(emailAddress);
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
@@ -99,6 +150,22 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             toolbar.setTitle(R.string.app_name);
+
+            settingsManager = new SettingsManager(this);
+
+            savedPhoneNumbers = settingsManager.getPhoneNumbers();
+            savedEmailAddresses = settingsManager.getEmailAddresses();
+
+            location_spinner = (Spinner) findViewById(R.id.location);
+            location_spinner.setOnItemSelectedListener(itemSelectedListener);
+
+            phoneNumberCaption_textView = (TextView) findViewById(R.id.phoneNumberCaption_textView);
+
+            phoneNumber_editText = (EditText) findViewById(R.id.sms);
+
+            emailAddressCaption_textView = (TextView) findViewById(R.id.emailAddressCaption_textView);
+
+            emailAddress_editText = (EditText) findViewById(R.id.email);
 
             aq.id(R.id.settings).clicked(this, "settings_click");
 
@@ -239,7 +306,7 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
     }
 
     private void start_settings() {
-        startActivity(new Intent(this, preferences.class));
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 
     private void set_default() {
@@ -409,7 +476,7 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
 
     private void send_sms(String message) {
         try {
-            final String sms = prefs.getString("sms", "").replace("(", "").replace(")", "").replace(" ", "").replace("-", "").replace("+", "");
+            final String sms = phoneNumber_editText.getText().toString().replace("(", "").replace(")", "").replace(" ", "").replace("-", "").replace("+", "");
             if (sms.length() > 9 && sms.length() < 13) {
                 PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
                 final SmsManager smsManager = SmsManager.getDefault();
@@ -438,7 +505,7 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
 
     private void send_mail(String message) {
         try {
-            final String email = prefs.getString("email", "");
+            final String email = emailAddress_editText.getText().toString();
             if (email.length() > 6 && email_validate(email)) {
                 final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
                 emailIntent.setType("plain/text");
