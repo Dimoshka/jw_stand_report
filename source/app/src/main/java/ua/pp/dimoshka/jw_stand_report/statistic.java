@@ -43,19 +43,18 @@ public class statistic extends ActionBarActivity {
             setSupportActionBar(toolbar);
             toolbar.setTitle(R.string.statistic);
 
-
             Cursor cur1 = database.rawQuery("select * from (select sum(`journal`) as `count_journal` from `statistic`) as `count_journal`, (select sum(`broshure`) as `count_broshure` from `statistic`) as `count_broshure`, (select sum(`dvd`) as `count_dvd` from `statistic`) as `count_dvd`, (select sum(`book`) as `count_book` from `statistic`) as `count_book`, (select sum(`talk`) as `count_talk` from `statistic`) as `count_talk`, (select sum(`repeated_visit`) as `count_repeated_visit` from `statistic`) as `count_repeated_visit`, (select sum(`s_blank`) as `count_s_blank` from `statistic`) as `count_s_blank`;", null);
 
             if (cur1.getCount() > 0) {
                 cur1.moveToFirst();
 
                 aq.id(R.id.journals).text(cur1.getString(cur1.getColumnIndex("count_journal")));
-                aq.id(R.id.journals).text(cur1.getString(cur1.getColumnIndex("count_broshure")));
-                aq.id(R.id.journals).text(cur1.getString(cur1.getColumnIndex("count_dvd")));
-                aq.id(R.id.journals).text(cur1.getString(cur1.getColumnIndex("count_book")));
-                aq.id(R.id.journals).text(cur1.getString(cur1.getColumnIndex("count_talk")));
-                aq.id(R.id.journals).text(cur1.getString(cur1.getColumnIndex("count_repeated_visit")));
-                aq.id(R.id.journals).text(cur1.getString(cur1.getColumnIndex("count_s_blank")));
+                aq.id(R.id.broshure).text(cur1.getString(cur1.getColumnIndex("count_broshure")));
+                aq.id(R.id.dvd).text(cur1.getString(cur1.getColumnIndex("count_dvd")));
+                aq.id(R.id.books).text(cur1.getString(cur1.getColumnIndex("count_book")));
+                aq.id(R.id.talks).text(cur1.getString(cur1.getColumnIndex("count_talk")));
+                aq.id(R.id.repeated_visits).text(cur1.getString(cur1.getColumnIndex("count_repeated_visit")));
+                aq.id(R.id.s43).text(cur1.getString(cur1.getColumnIndex("count_s_blank")));
 
 
             }

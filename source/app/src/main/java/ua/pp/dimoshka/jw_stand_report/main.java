@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -49,7 +50,7 @@ import ua.pp.dimoshka.jw_stand_report.managers.ISettingsManager;
 import ua.pp.dimoshka.jw_stand_report.managers.SettingsManager;
 
 
-public class main extends ActionBarActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class main extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private final static String SENT = "SENT_SMS_ACTION";
     private final class_transliterator translite = new class_transliterator();
@@ -153,8 +154,6 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
 
             settingsManager = new SettingsManager(this);
 
-            savedPhoneNumbers = settingsManager.getPhoneNumbers();
-            savedEmailAddresses = settingsManager.getEmailAddresses();
 
             location_spinner = (Spinner) findViewById(R.id.location);
             location_spinner.setOnItemSelectedListener(itemSelectedListener);
@@ -316,6 +315,9 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
                 }
                 cursor.moveToNext();
             }
+            savedPhoneNumbers = settingsManager.getPhoneNumbers();
+            savedEmailAddresses = settingsManager.getEmailAddresses();
+
         } catch (Exception ex) {
             send_error(ex);
         }
@@ -413,8 +415,6 @@ public class main extends ActionBarActivity implements SharedPreferences.OnShare
                             + "\r\n" + getString(R.string.blank) + ": " + aq.id(R.id.s43).getText().toString();
                     break;
             }
-            Log.e("11", message.length() + "");
-            Log.e("11", message);
         } catch (Exception ex) {
             send_error(ex);
         }
